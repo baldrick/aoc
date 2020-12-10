@@ -28,12 +28,16 @@ function main() {
     doit('input.txt')
 }
 
-function test() {
-    doit('test.txt')
+function test(testfile) {
+    doit(testfile)
 }
 
 if (process.argv.length > 2 && process.argv[2] == '-t') {
-    test()
+    if (process.argv.length > 3) {
+        test(process.argv[3])
+    } else {
+        test('test.txt')
+    }
 } else {
     main()
 }
