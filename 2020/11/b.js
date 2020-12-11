@@ -1,6 +1,7 @@
-fs = require('fs')
-os = require('os')
-assert = require('assert')
+'use strict';
+
+var fs = require('fs')
+var os = require('os')
 
 function readInput(filename, cb) {
     var input = [];
@@ -8,8 +9,8 @@ function readInput(filename, cb) {
         if (err) {
             return console.log(err);
         }
-        lines = data.split(os.EOL);
-        l = 0
+        var lines = data.split(os.EOL);
+        var l = 0
         for (var line of lines) {
             input[l] = line
             l++
@@ -23,8 +24,8 @@ const OCCUPIED = '#'
 const FLOOR = '.'
 
 function readRow(line) {
-    row = []
-    col = 0
+    var row = []
+    var col = 0
     console.log('Adding ' + line)
     for (var c of line.split('')) {
         if (c == 'L') {
@@ -42,10 +43,10 @@ function dump(msg, layout) {
     console.log(msg)
     console.log('----------------------------')
     console.log('layout is ' + layout.length + ' x ' + layout[0].length)
-    occupied = 0
-    for (row = 0;  row < layout.length;  row++) {
-        s = ""
-        for (col = 0;  col < layout[row].length;  col++) {
+    var occupied = 0
+    for (var row = 0;  row < layout.length;  row++) {
+        var s = ""
+        for (var col = 0;  col < layout[row].length;  col++) {
             s += layout[row][col]
             if (layout[row][col] == OCCUPIED) {
                 occupied++
@@ -61,8 +62,8 @@ function inBounds(layout, r, c) {
 }
 
 function visibleOccupiedDirection(layout, r, c, dr, dc) {
-    cr = r + dr
-    cc = c + dc
+    var cr = r + dr
+    var cc = c + dc
     while (inBounds(layout, cr, cc)) {
         if (layout[cr][cc] == OCCUPIED) {
             return 1
@@ -76,8 +77,8 @@ function visibleOccupiedDirection(layout, r, c, dr, dc) {
 }
 
 function visibleOccupied(layout, r, c) {
-    deltas = [ -1, 0, 1 ]
-    neighbours = 0
+    var deltas = [ -1, 0, 1 ]
+    var neighbours = 0
     for (var dr of deltas) {
         for (var dc of deltas) {
             if (dr != 0 || dc != 0) {
@@ -89,7 +90,7 @@ function visibleOccupied(layout, r, c) {
 }
 
 function processLayout(layout, r, c) {
-    neighbours = visibleOccupied(layout, r, c)
+    var neighbours = visibleOccupied(layout, r, c)
     switch (layout[r][c]) {
         case FLOOR:
             return FLOOR
@@ -109,15 +110,15 @@ function processLayout(layout, r, c) {
 }
 
 function shuffleSeats(layout) {
-    newLayout = []
-    for (shuffleRow = 0;  shuffleRow < layout.length;  shuffleRow++) {
-        newLayout[shuffleRow] = []
+    var newLayout = []
+    for (var row = 0;  row < layout.length;  row++) {
+        newLayout[row] = []
     }
-    changed = 0
-    for (shuffleRow = 0;  shuffleRow < layout.length;  shuffleRow++) {
-        for (shuffleCol = 0;  shuffleCol < layout[shuffleRow].length;  shuffleCol++) {
-            newLayout[shuffleRow][shuffleCol] = processLayout(layout, shuffleRow, shuffleCol)
-            if (newLayout[shuffleRow][shuffleCol] != layout[shuffleRow][shuffleCol]) {
+    var changed = 0
+    for (var row = 0;  row < layout.length;  row++) {
+        for (var col = 0;  col < layout[row].length;  col++) {
+            newLayout[row][col] = processLayout(layout, row, col)
+            if (newLayout[row][col] != layout[row][col]) {
                 changed++
             }
         }
@@ -127,15 +128,15 @@ function shuffleSeats(layout) {
 
 function doit(filename) {
     readInput(filename, function(input) {
-        layout = []
-        xrow = 0
+        var layout = []
+        var row = 0
         for (var line of input) {
-            layout[xrow] = readRow(line)
-            console.log('set layout[' + xrow + '] to ' + layout[xrow])
-            xrow++
+            layout[row] = readRow(line)
+            console.log('set layout[' + row + '] to ' + layout[row])
+            row++
         }
         dump('initial', layout)
-        newLayout = { layout: layout, changed: 1}
+        var newLayout = { layout: layout, changed: 1}
         while (newLayout.changed != 0) {
             newLayout = shuffleSeats(newLayout.layout)
             console.log('Shuffle changed ' + newLayout.changed + ' seats')
