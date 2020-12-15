@@ -1,6 +1,7 @@
-fs = require('fs')
-os = require('os')
-assert = require('assert')
+'use strict';
+
+var fs = require('fs')
+var os = require('os')
 
 function readInput(filename, cb) {
     var input = [];
@@ -8,8 +9,8 @@ function readInput(filename, cb) {
         if (err) {
             return console.log(err);
         }
-        lines = data.split(os.EOL);
-        l = 0
+        var lines = data.split(os.EOL);
+        var l = 0
         for (var line of lines) {
             input[l] = line
             l++
