@@ -12,6 +12,7 @@ function readInput(filename, cb) {
         var lines = data.split(os.EOL);
         var l = 0
         for (var line of lines) {
+            if (line[0] == '/' && line[1] == '/') continue
             input[l] = line
             l++
         }
