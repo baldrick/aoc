@@ -14,4 +14,4 @@ This code is most often knocked out in the evening after work and once I've got 
 
 # 2021
 
-I used Python for this year.  The language has been around for years but the v2/v3 debacle put me off learning it.  Until now.  Make sure `aoc/2021` is included in your `PYTHONPATH` for these solutions to work.
+I used Python for this year.  The language has been around for years but the v2/v3 debacle put me off learning it.  Until now.  Make sure `aoc/2021` is included in your `PYTHONPATH` for these solutions to work.  Python >=3.10 is required.
