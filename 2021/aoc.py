@@ -27,6 +27,9 @@ class Coord:
     def __repr__(self):
         return "r%s,c%s" % (self.row, self.col)
 
+    def xy(self):
+        return f"{self.col},{self.row}"
+
     def __hash__(self):
         return hash((self.row, self.col))
 
