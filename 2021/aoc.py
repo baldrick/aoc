@@ -93,3 +93,95 @@ class Grid:
 
     def inGrid(self, p, dx, dy):
         return p.row + dy >= 0 and p.row + dy < len(self.grid) and p.col + dx >= 0 and p.col + dx < self.grid[0].len()
+
+class NodeFactory:
+    _id = 0
+
+    def create_node(self, data):
+        self._id += 1
+        return Node(data, self._id)
+
+class Node:
+    def __init__(self, data, id):
+        self.data = data
+        self.id = id
+        self.next = None
+
+    def __repr__(self):
+        return f"{self.id}:{self.data}"
+
+    def __eq__(self, other):
+        if self is None and other is None:
+            return True
+        if (self is None and other is not None) or (self is not None and other is None):
+            return False
+        return self.id == other.id
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def __repr__(self):
+        node = self.head
+        nodes = []
+        while node is not None:
+            nodes.append(f"{node}")
+            node = node.next
+        nodes.append("None")
+        return " -> ".join(nodes)
+
+    def simple(self):
+        node = self.head
+        nodes = []
+        while node is not None:
+            nodes.append(f"{node.data}")
+            node = node.next
+        return "".join(nodes)
+
+    def __iter__(self):
+        node = self.head
+        while node is not None:
+            yield node
+            node = node.next
+
+    def __len__(self):
+        n = 0
+        for c in self:
+            n += 1
+            pass
+        return n
+
+    def prepend(self, node):
+        node.prev = None
+        node.next = self.head
+        self.head.prev = node
+        self.head = node
+
+    def append(self, node):
+        if self.head is None:
+            self.head = node
+            return
+        for current_node in self:
+            pass
+        current_node.next = node
+        node.prev = current_node
+
+    def append_after(self, target_node, new_node):
+        if self.head is None:
+            raise Exception("List is empty")
+
+        old_next = target_node.next
+        target_node.next = new_node
+        new_node.next = old_next
+        new_node.prev = target_node
+        old_next.prev = new_node
+
+    def prepend_before(self, target_node, new_node):
+        if self.head is None:
+            raise Exception("List is empty")
+        
+        old_prev = target_node.prev
+        target_node.prev = new_node
+        new_node.prev = old_prev
+        old_prev.next = new_node
+        new_node.next = target_node
