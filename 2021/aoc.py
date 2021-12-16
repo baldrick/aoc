@@ -67,7 +67,7 @@ class Row:
             self.row.append(int(c))
 
     def __repr__(self):
-        return ",".join(str(n) for n in self.row)
+        return "".join(str(n) for n in self.row)
 
     def len(self):
         return len(self.row)
@@ -91,8 +91,15 @@ class Grid:
     def diagonal(self, dc, dr):
         return dc != 0 and dr != 0
 
+    # Oh what was I thinking mixing row,col and x,y!
     def inGrid(self, p, dx, dy):
         return p.row + dy >= 0 and p.row + dy < len(self.grid) and p.col + dx >= 0 and p.col + dx < self.grid[0].len()
+
+    def cell(self, p):
+        return self.grid[p.row].row[p.col]
+
+    def isLastCell(self, p):
+        return p.row == len(self.grid)-1 and p.col == len(self.grid[0].row)-1
 
 class NodeFactory:
     _id = 0
