@@ -1,3 +1,5 @@
+import set
+
 class xy:
     def __init__(self, x, y):
         self.x = x
@@ -11,6 +13,9 @@ class xy:
 
     def __eq__(self, other):
         return (self.x, self.y) == (other.x, other.y)
+
+    def __lt__(self, other):
+        return self.x < other.x or (self.x == other.y and self.y < other.y)
 
 class RowProvider:
     # Iterates over all rows.
@@ -49,7 +54,10 @@ class CellProvider:
     # Reports the number of cells in this row.
     def __len__(self):
         return len(self.row)
-    
+
+    def __getitem__(self, item):
+        return self.row[item]
+
 class SimpleRowToLetterCells(CellProvider):
     def __init__(self, line):
         super().__init__()
@@ -80,6 +88,8 @@ def csvCellsProvider(line):
 
 class Grid:
     def __init__(self, input, cellProvider, rowProvider = simpleLinesToRowsProvider):
+        self.rowProvider = rowProvider
+        self.cellProvider = cellProvider
         self.grid = []
         for row in rowProvider(input):
             self.grid.append(cellProvider(row))
@@ -96,6 +106,12 @@ class Grid:
         for row in self.grid:
             yield row
 
+    def __len__(self):
+        return len(self.grid)
+
+    def __getitem__(self, item):
+        return self.grid[item]
+
     def colRowSize(self):
         return self.xySize()
 
@@ -107,3 +123,23 @@ class Grid:
 
     def inGrid(self, xyp):
         return xyp.x >= 0 and xyp.y >= 0 and xyp.y < len(self.grid) and xyp.x < len(self.grid[0])
+    
+    def cell(self, xyp):
+        return self.grid[xyp.y][xyp.x]
+
+    def neighbours(self, p):
+        n = set.Set()
+        if p.x > 0:
+            n.add(xy(p.x-1, p.y))
+        if p.y > 0:
+            n.add(xy(p.x, p.y-1))
+        if p.x < len(self.grid[0])-1:
+            n.add(xy(p.x+1, p.y))
+        if p.y < len(self.grid)-1:
+            n.add(xy(p.x, p.y+1))
+        #print(f"returning neighbours {n}")
+        return n
+
+class IntegerGrid(Grid):
+    def __init__(self, input):
+        super().__init__(input, integerCellsProvider)

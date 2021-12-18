@@ -13,8 +13,16 @@ class Set:
     def __len__(self):
         return len(self.items)
 
+    def __getitem__(self, item):
+        if item in self.items:
+            return self.items[item]
+        return None
+
     def add(self, item):
         if item in self.items:
             return False
         self.items[item] = item
         return True
+
+    def remove(self, item):
+        del self.items[item]
