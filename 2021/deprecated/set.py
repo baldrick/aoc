@@ -1,3 +1,9 @@
+# DEPRECATED - use set() ... why didn't I find that when googling for python set!?
+import deprecation
+
+@deprecation.deprecated(deprecated_in="20211218", removed_in="2022",
+                        current_version="20211218",
+                        details="Use the built in set() instead")
 class Set:
     def __init__(self, name="Anon"):
         self.items = {}

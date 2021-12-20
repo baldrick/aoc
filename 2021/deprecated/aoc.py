@@ -1,5 +1,10 @@
-import sys
+import deprecation
 
+@deprecation.deprecated(deprecated_in="20211218", removed_in="2022",
+                        current_version="20211218",
+                        details="Use the broken out colors / grid / util modules instead")
+
+import sys
 
 class colors:  # You may need to change color settings
     RED = '\033[31m'

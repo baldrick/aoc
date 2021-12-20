@@ -1,5 +1,3 @@
-import set
-
 class xy:
     def __init__(self, x, y):
         self.x = x
@@ -57,6 +55,9 @@ class CellProvider:
 
     def __getitem__(self, item):
         return self.row[item]
+    
+    def __repr__(self):
+        return f"{self.row}"
 
 class SimpleRowToLetterCells(CellProvider):
     def __init__(self, line):
@@ -71,6 +72,12 @@ class IntegerCells(CellProvider):
         for c in line:
             self.row.append(int(c))
 
+class CharacterCells(CellProvider):
+    def __init__(self, line):
+        super().__init__()
+        for c in line:
+            self.row.append(c)
+
 class CSV(CellProvider):
     def __init__(self, line):
         super().__init__()
@@ -82,6 +89,9 @@ def simpleRowToLetterCellsProvider(line):
 
 def integerCellsProvider(line):
     return IntegerCells(line)
+
+def characterCellsProvider(line):
+    return CharacterCells(line)
 
 def csvCellsProvider(line):
     return CSV(line)
@@ -128,7 +138,7 @@ class Grid:
         return self.grid[xyp.y][xyp.x]
 
     def neighbours(self, p):
-        n = set.Set()
+        n = set()
         if p.x > 0:
             n.add(xy(p.x-1, p.y))
         if p.y > 0:
@@ -143,3 +153,7 @@ class Grid:
 class IntegerGrid(Grid):
     def __init__(self, input):
         super().__init__(input, integerCellsProvider)
+
+class CharacterGrid(Grid):
+    def __init__(self, input):
+        super().__init__(input, characterCellsProvider)
