@@ -101,12 +101,14 @@ class Grid:
     def isLastCell(self, p):
         return p.row == len(self.grid)-1 and p.col == len(self.grid[0].row)-1
 
+
 class NodeFactory:
     _id = 0
 
     def create_node(self, data):
         self._id += 1
         return Node(data, self._id)
+
 
 class Node:
     def __init__(self, data, id):
@@ -123,6 +125,7 @@ class Node:
         if (self is None and other is not None) or (self is not None and other is None):
             return False
         return self.id == other.id
+
 
 class LinkedList:
     def __init__(self):
@@ -186,9 +189,15 @@ class LinkedList:
     def prepend_before(self, target_node, new_node):
         if self.head is None:
             raise Exception("List is empty")
-        
+
         old_prev = target_node.prev
         target_node.prev = new_node
         new_node.prev = old_prev
         old_prev.next = new_node
         new_node.next = target_node
+
+
+def log(level, s):
+    if len(sys.argv) > 2 and sys.argv[2] == 'debug':
+        if int(sys.argv[3]) >= level:
+            print(s, flush=True)
