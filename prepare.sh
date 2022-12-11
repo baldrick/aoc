@@ -11,5 +11,11 @@ else
     session=$(cat session)
     curl --cookie ${session} -o ${puzzle} https://adventofcode.com/${year}/day/${day}/input
 fi
+
+if [ ! -f $year/$day/a.jl ]
+then
+    cp templates/a.jl $year/$day
+fi
+
 echo "cd $year/$day" | pbcopy
 echo "Now cd $year/$day (already in the clipboard for you!)"
