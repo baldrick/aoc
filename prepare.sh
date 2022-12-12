@@ -1,5 +1,5 @@
-day=$(date | cut -d ' ' -f 2)
-year=$(date | cut -d ' ' -f 4)
+day=$(date +%d)
+year=$(date +%Y)
 puzzle=$year/$day/puzzle
 
 [ -d $year/$day ] || mkdir -p $year/$day
@@ -17,5 +17,11 @@ then
     cp templates/a.jl $year/$day
 fi
 
-echo "cd $year/$day" | pbcopy
-echo "Now cd $year/$day (already in the clipboard for you!)"
+which pbcopy 2>/dev/null
+if [ $? -eq 0 ]
+then
+    echo "cd $year/$day" | pbcopy
+    echo "Now cd $year/$day (already in the clipboard for you!)"
+else
+    echo "Now cd $year/$day"
+fi
