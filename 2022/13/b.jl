@@ -4,9 +4,12 @@ function main()
     f = open(ARGS[1], "r")
     i = 1
     total = 0
+    packets = []
     while !eof(f)
         left = JSON.parse(readline(f))
+        push!(packets, left)
         right = JSON.parse(readline(f))
+        push!(packets, right)
         if less_than(left, right)
             total += i
         end
@@ -16,10 +19,29 @@ function main()
         i += 1
     end
     println(total)
+    sp = sort(packets, lt=less_than)
+    println("== PACKETS ==")
+    display(sp)
+    println("=============")
+    div1 = JSON.parse("[[2]]")
+    div2 = JSON.parse("[[6]]")
+    i1 = 0
+    i2 = 0
+    display(div1)
+    display(div2)
+    for i in 1:length(sp)
+        packet = sp[i]
+        #display(packet)
+        if packet == div1
+            i1 = i
+        end
+        if packet == div2
+            i2 = i
+        end
+    end
+    println("$i1 * $i2 = $(i1 * i2)")
 end
 
-# Had to resort to reddit for inspiration for this, my previous attempt was nasty.
-# However, at least I learnt how to override methods by doing so :-)
 function less_than(left::Int, right::Int)
     return left < right
 end
