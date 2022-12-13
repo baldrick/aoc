@@ -1,5 +1,16 @@
-day=$(date | cut -d ' ' -f 2)
-year=$(date | cut -d ' ' -f 4)
+if [ -z "$1" ]
+then
+    year=$(date | cut -d ' ' -f 4)
+    day=$(date | cut -d ' ' -f 2)
+else
+    year=$1
+    day=$2
+    if [ -z "$day" ]
+    then
+        echo "If year is specified, day must also be specified..."
+        exit 1
+    fi
+fi
 puzzle=$year/$day/puzzle
 
 [ -d $year/$day ] || mkdir -p $year/$day
