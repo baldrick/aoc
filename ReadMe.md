@@ -18,4 +18,4 @@ I used Python for this year.  The language has been around for years but the v2/
 
 # 2022
 
-I gave [Julia](https://julialang.org/) a crack this year for no real reason other than I read about it a week or two beforehand...
+I gave [Julia](https://julialang.org/) a crack this year for no real reason other than I read about it a week or two beforehand...  The 1-based indexing caused me grief a few times just because I'm used to 0-based.  I find the documentation awkward to use too but overall I can see it'd be a nice language to use with more familiarity.  Having a REPL is a big plus.
