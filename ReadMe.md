@@ -19,3 +19,7 @@ I used Python for this year.  The language has been around for years but the v2/
 # 2022
 
 I gave [Julia](https://julialang.org/) a crack this year for no real reason other than I read about it a week or two beforehand...  The 1-based indexing caused me grief a few times just because I'm used to 0-based.  I find the documentation awkward to use too but overall I can see it'd be a nice language to use with more familiarity.  Having a REPL is a big plus.
+
+# 2023
+
+Back to golang but with the addition of Bazel because I wanted to learn about it (and how it might differ from Google's internal version, blaze).
