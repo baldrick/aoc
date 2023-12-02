@@ -34,35 +34,18 @@ func main() {
 func process(puzzle []string) error {
 	total := 0
 	for _, line := range puzzle {
-		id, possible, err := possibleGame(line)
+		_, m, err := getMaxBalls(line)
 		if err != nil {
 			return err
 		}
-		if possible {
-			total += id
+		power := 1
+		for _, v := range m {
+			power *= v
 		}
+		total += power
 	}
-	fmt.Printf("total = %v\n", total)
+	fmt.Printf("total: %v\n", total)
 	return nil
-}
-
-func possibleGame(line string) (int, bool, error) {
-	id, m, err := getMaxBalls(line)
-	if err != nil {
-		return 0, false, err
-	}
-	if len(m) != len(bag) {
-		fmt.Printf("m: #%v, bag: #%v\n", len(m), len(bag))
-		return id, false, nil
-	}
-	for c, v := range m {
-		count, ok := bag[c]
-		if !ok || count < v {
-			fmt.Printf("%v not found or too few (%v < %v)\n", c, count, v)
-			return id, false, nil
-		}
-	}
-	return id, true, nil
 }
 
 func getMaxBalls(line string) (int, map[string]int, error) {

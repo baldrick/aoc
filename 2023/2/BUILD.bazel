@@ -14,3 +14,18 @@ go_binary(
     embed = [":2_lib"],
     visibility = ["//visibility:public"],
 )
+
+go_library(
+    name = "2b_lib",
+    srcs = ["b.go"],
+    importpath = "github.com/baldrick/aoc/AdventOfCode/2023/2",
+    visibility = ["//visibility:private"],
+    deps = ["//AdventOfCode/2023/aoc:aoc"],
+    data = glob(["*.txt"])
+)
+
+go_binary(
+    name = "2b",
+    embed = [":2b_lib"],
+    visibility = ["//visibility:public"],
+)
