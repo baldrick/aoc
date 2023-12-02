@@ -1,7 +1,7 @@
 if [ -z "$1" ]
 then
-    year=$(date | cut -d ' ' -f 4)
-    day=$(date | cut -d ' ' -f 2)
+    year=$(date | cut -d ' ' -f 5)
+    day=$(date | cut -d ' ' -f 3)
 else
     year=$1
     day=$2
@@ -11,7 +11,7 @@ else
         exit 1
     fi
 fi
-puzzle=$year/$day/puzzle
+puzzle=$year/$day/puzzle.txt
 
 [ -d $year/$day ] || mkdir -p $year/$day
 
@@ -23,10 +23,13 @@ else
     curl --cookie ${session} -o ${puzzle} https://adventofcode.com/${year}/day/${day}/input
 fi
 
-if [ ! -f $year/$day/a.jl ]
-then
-    cp templates/a.jl $year/$day
-fi
+for template in a.go BUILD.bazel
+do
+    if [ ! -f $year/$day/$template ]
+    then
+        sed "s/{{DAY}}/$day/" <templates/$template | sed "s/{{YEAR}}/$year/" >$year/$day/$template
+    fi
+done
 
 which pbcopy 2>/dev/null
 if [ $? -eq 0 ]

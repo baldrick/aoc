@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "2_lib",
+    srcs = ["a.go"],
+    importpath = "github.com/baldrick/aoc/AdventOfCode/2023/2",
+    visibility = ["//visibility:private"],
+    deps = ["//AdventOfCode/2023/aoc:aoc"],
+    data = glob(["*.txt"])
+)
+
+go_binary(
+    name = "2",
+    embed = [":2_lib"],
+    visibility = ["//visibility:public"],
+)
