@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"flag"
+	"log"
 	"regexp"
 	"strconv"
 
@@ -17,6 +18,7 @@ const (
 var (
 	inputFile = flag.String("f", "test", "Puzzle file (partial name) to use")
 	bag = map[string]int{"red": 12, "green": 13, "blue": 14}
+	logger = log.Default()
 )
 
 func main() {
@@ -44,7 +46,7 @@ func process(puzzle []string) error {
 		}
 		total += power
 	}
-	fmt.Printf("total: %v\n", total)
+	logger.Printf("total: %v", total)
 	return nil
 }
 
