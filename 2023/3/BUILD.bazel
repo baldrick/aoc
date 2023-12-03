@@ -1,0 +1,31 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "3_lib",
+    srcs = ["a.go"],
+    importpath = "github.com/baldrick/aoc/AdventOfCode/2023/3",
+    visibility = ["//visibility:private"],
+    deps = ["//AdventOfCode/2023/aoc:aoc"],
+    data = glob(["*.txt"])
+)
+
+go_binary(
+    name = "3",
+    embed = [":3_lib"],
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "3b_lib",
+    srcs = ["b.go"],
+    importpath = "github.com/baldrick/aoc/AdventOfCode/2023/3",
+    visibility = ["//visibility:private"],
+    deps = ["//AdventOfCode/2023/aoc:aoc"],
+    data = glob(["*.txt"])
+)
+
+go_binary(
+    name = "3b",
+    embed = [":3b_lib"],
+    visibility = ["//visibility:public"],
+)
