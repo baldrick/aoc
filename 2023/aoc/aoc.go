@@ -40,3 +40,42 @@ func MinInt(a, b int) int {
 	}
 	return a
 }
+
+type StringSet struct {
+	s map[string]struct{}
+}
+
+func NewStringSet() *StringSet {
+	return &StringSet{s: make(map[string]struct{})}
+}
+
+func (ss *StringSet) Add(s string) {
+	if len(s) == 0 {
+		return
+	}
+	ss.s[s] = struct{}{}
+}
+
+func (ss *StringSet) String() string {
+	var sb strings.Builder
+	for n, _ := range ss.s {
+		sb.WriteString(n)
+		sb.WriteString(",")
+	}
+	return sb.String()
+}
+
+func (ss *StringSet) Intersect(other *StringSet) *StringSet {
+	i := NewStringSet()
+	for n, _ := range ss.s {
+		_, ok := other.s[n]
+		if ok {
+			i.Add(n)
+		}
+	}
+	return i
+}
+
+func (ss *StringSet) Len() int {
+	return len(ss.s)
+}
