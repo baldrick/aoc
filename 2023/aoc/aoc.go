@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -11,8 +13,8 @@ func GetPuzzleInput(inputFile string, year, day int) ([]string, error) {
 	if !strings.Contains(inputFile, ".txt") {
 		inputFile += ".txt"
 	}
-	if !strings.Contains(inputFile, fmt.Sprintf("AdventOfCode/%v/%v/", year, day)) {
-		inputFile = fmt.Sprintf("AdventOfCode/%v/%v/%v", year, day, inputFile)
+	if !strings.Contains(inputFile, fmt.Sprintf("%v/%v/", year, day)) {
+		inputFile = fmt.Sprintf("%v/%v/%v", year, day, inputFile)
 	}
 	f, err := os.Open(inputFile)
 	if err != nil {
@@ -78,4 +80,35 @@ func (ss *StringSet) Intersect(other *StringSet) *StringSet {
 
 func (ss *StringSet) Len() int {
 	return len(ss.s)
+}
+
+func MustAtoi(s string) int {
+	n, err := strconv.Atoi(s)
+	if err != nil {
+		panic(fmt.Sprintf("Failed to translate %q to number: %v", s, err))
+	}
+	return n
+}
+
+func StripAndParse(strip, line string) ([]int, error) {
+	re := regexp.MustCompile(strip + ` *(.*)`)
+	matches := re.FindStringSubmatch(line)
+	if len(matches) != 2 {
+		return nil, fmt.Errorf("Failed to parse %q: %v matches found, want 2", line, len(matches))
+	}
+	return ParseNumbers(matches[1])
+}
+
+func ParseNumbers(numberList string) ([]int, error) {
+	re := regexp.MustCompile(` *([0-9]*)(.*)`)
+	var numbers []int
+	for ;; {
+		matches := re.FindStringSubmatch(numberList)
+		numbers = append(numbers, MustAtoi(matches[1]))
+		if len(matches[2]) == 0 {
+			break
+		}
+		numberList = matches[2]
+	}
+	return numbers, nil
 }

@@ -6,3 +6,11 @@ go_library(
     importpath = "github.com/baldrick/aoc/AdventOfCode/2023/aoc",
     visibility = ["//visibility:public"],
 )
+
+go_library(
+    name = "rangemap",
+    srcs = ["rangemap.go"],
+    importpath = "github.com/baldrick/aoc/AdventOfCode/2023/rangemap",
+    visibility = ["//visibility:public"],
+    deps = [":aoc"],
+)
