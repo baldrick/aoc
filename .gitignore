@@ -6,3 +6,4 @@ session
 /bazel-bin
 /bazel-out
 /bazel-testlogs
+2020/**/BUILD.bazel
