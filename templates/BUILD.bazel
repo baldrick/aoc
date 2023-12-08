@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 
 go_library(
     name = "{{DAY}}_lib",
@@ -6,12 +6,11 @@ go_library(
     data = glob(["*.txt"]),
     importpath = "github.com/baldrick/aoc/AdventOfCode/{{YEAR}}/{{DAY}}",
     visibility = ["//visibility:private"],
-    deps = ["//AdventOfCode/2023/aoc"],
+    deps = ["//2023/aoc"],
 )
 
-go_library(
-    name = "templates_lib",
-    srcs = ["a.go"],
-    importpath = "github.com/baldrick/aoc/templates",
+go_binary(
+    name = "{{DAY}}",
+    embed = [":{{DAY}}_lib"],
     visibility = ["//visibility:public"],
 )

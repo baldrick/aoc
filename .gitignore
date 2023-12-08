@@ -7,3 +7,4 @@ session
 /bazel-out
 /bazel-testlogs
 2020/**/BUILD.bazel
+/bazel-AdventOfCode
