@@ -6,6 +6,7 @@ go_library(
     data = glob(["*.txt"]),
     importpath = "github.com/baldrick/aoc/2023/1",
     visibility = ["//visibility:private"],
+    deps = ["//2023/aoc"],
 )
 
 go_binary(

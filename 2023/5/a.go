@@ -6,8 +6,8 @@ import (
 	"math"
 	"time"
 
-	"github.com/baldrick/aoc/AdventOfCode/2023/aoc"
-	"github.com/baldrick/aoc/AdventOfCode/2023/rangemap"
+	"github.com/baldrick/aoc/2023/aoc"
+	"github.com/baldrick/aoc/2023/rangemap"
 	"github.com/dustin/go-humanize"
 )
 

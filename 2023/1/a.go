@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/baldrick/aoc/AdventOfCode/2023/aoc"
+	"github.com/baldrick/aoc/2023/aoc"
 )
 
 const (

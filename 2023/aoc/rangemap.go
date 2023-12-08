@@ -3,7 +3,7 @@ package rangemap
 import (
 	"fmt"
 
-	"github.com/baldrick/aoc/AdventOfCode/2023/aoc"
+	"github.com/baldrick/aoc/2023/aoc"
 )
 
 type TheMap struct {

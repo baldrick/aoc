@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/baldrick/aoc/AdventOfCode/2023/aoc"
+	"github.com/baldrick/aoc/2023/aoc"
 )
 
 const (

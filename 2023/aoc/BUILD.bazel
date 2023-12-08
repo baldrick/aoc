@@ -3,14 +3,14 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "aoc",
     srcs = ["aoc.go"],
-    importpath = "github.com/baldrick/aoc/AdventOfCode/2023/aoc",
+    importpath = "github.com/baldrick/aoc/2023/aoc",
     visibility = ["//visibility:public"],
 )
 
 go_library(
     name = "rangemap",
     srcs = ["rangemap.go"],
-    importpath = "github.com/baldrick/aoc/AdventOfCode/2023/rangemap",
+    importpath = "github.com/baldrick/aoc/2023/rangemap",
     visibility = ["//visibility:public"],
     deps = [":aoc"],
 )

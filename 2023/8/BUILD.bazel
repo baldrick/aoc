@@ -4,7 +4,7 @@ go_library(
     name = "8_lib",
     srcs = ["a.go"],
     data = glob(["*.txt"]),
-    importpath = "github.com/baldrick/aoc/AdventOfCode/2023/8",
+    importpath = "github.com/baldrick/aoc/2023/8",
     visibility = ["//visibility:private"],
     deps = ["//2023/aoc"],
 )
@@ -13,7 +13,7 @@ go_library(
     name = "8b_lib",
     srcs = ["b.go"],
     data = glob(["*.txt"]),
-    importpath = "github.com/baldrick/aoc/AdventOfCode/2023/8",
+    importpath = "github.com/baldrick/aoc/2023/8",
     visibility = ["//visibility:private"],
     deps = ["//2023/aoc"],
 )

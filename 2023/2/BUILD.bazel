@@ -4,11 +4,11 @@ go_library(
     name = "2_lib",
     srcs = [
         "a.go",
-        "b.go",
     ],
     data = glob(["*.txt"]),
     importpath = "github.com/baldrick/aoc/2023/2",
     visibility = ["//visibility:private"],
+    deps = ["//2023/aoc"],
 )
 
 go_binary(
@@ -21,9 +21,9 @@ go_library(
     name = "2b_lib",
     srcs = ["b.go"],
     data = glob(["*.txt"]),
-    importpath = "github.com/baldrick/aoc/AdventOfCode/2023/2",
+    importpath = "github.com/baldrick/aoc/2023/2",
     visibility = ["//visibility:private"],
-    deps = ["//AdventOfCode/2023/aoc"],
+    deps = ["//2023/aoc"],
 )
 
 go_binary(
