@@ -4,7 +4,7 @@ go_library(
     name = "{{DAY}}_lib",
     srcs = ["a.go"],
     data = glob(["*.txt"]),
-    importpath = "github.com/baldrick/aoc/AdventOfCode/{{YEAR}}/{{DAY}}",
+    importpath = "github.com/baldrick/aoc/{{YEAR}}/{{DAY}}",
     visibility = ["//visibility:private"],
     deps = ["//2023/aoc"],
 )

@@ -5,7 +5,7 @@ import (
 	"flag"
 	"log"
 
-	"github.com/baldrick/aoc/AdventOfCode/2023/aoc"
+	"github.com/baldrick/aoc/2023/aoc"
 )
 
 const (
@@ -34,5 +34,5 @@ func process(puzzle []string) error {
 	for _, line := range puzzle {
 		logger.Print(line)
 	}
-	return logger.Fatal("Not yet implemented")
+	return fmt.Errorf("Not yet implemented")
 }
