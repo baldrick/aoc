@@ -72,13 +72,20 @@ getPuzzle() {
         echo "${puzzle} already exists"
     else
         session=$(cat session)
-        curl --cookie ${session} -o ${puzzle} https://adventofcode.com/${year}/day/${day}/input
+        tmp=/tmp/curl.$$
+        curl --cookie ${session} -o ${puzzle} https://adventofcode.com/${year}/day/${day}/input 2>$tmp
+        if [[ $? -ne 0 ]]
+        then
+            echo "Failed to retrieve puzzle:"
+            cat $tmp
+        fi
+        rm $tmp
     fi
 }
 
 showInstructions() {
     testcmd="blaze test --test_output=all $year/$day/${day}_test"
-    which pbcopy 2>/dev/null
+    which pbcopy 1>/dev/null 2>/dev/null
     if [ $? -eq 0 ]
     then
         echo $testcmd | pbcopy
@@ -86,6 +93,7 @@ showInstructions() {
     else
         echo "To test, run: $testcmd"
     fi
+    echo "To run part A of the puzzle, run: blaze run $year -- day${day}A"
 }
 
 init $@
