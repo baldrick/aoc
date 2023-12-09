@@ -1,35 +1,54 @@
-package main
+package day7
 
 import (
-	"flag"
-	"fmt"
-	"log"
-	"regexp"
-	"sort"
+    _ "embed"
+    "fmt"
+    "log"
+    "regexp"
+    "sort"
 
-	"github.com/baldrick/aoc/2023/aoc"
+    "github.com/baldrick/aoc/2023/aoc"
+    "github.com/urfave/cli"
 )
 
 const (
-	year = 2023
-	day = 7
+    year = 2023
+    day = 7
 )
 
 var (
-	inputFile = flag.String("f", "test", "Puzzle file (partial name) to use")
-	logger = log.Default()
+    //go:embed puzzle.txt
+    puzzle string
+
+    // A is the command to use to run part A for this day.
+    A = &cli.Command{
+        Name:  "day7A",
+        Usage: "Day 7 part A",
+        Action: partA,
+    }
+    B = &cli.Command{
+        Name:  "day7B",
+        Usage: "Day 7 part B",
+        Action: partB,
+    }
 )
 
-func main() {
-	flag.Parse()
-	puzzle, err := aoc.GetPuzzleInput(*inputFile, year, day)
-	if err != nil {
-		logger.Fatalf("oops: %v\n", err)
-		return
-	}
-	if err := processJ(puzzle); err != nil {
-		logger.Fatalf("oops: %v\n", err)
-	}
+func partA(ctx *cli.Context) error {
+    answer, err := processA(aoc.PreparePuzzle(puzzle))
+    if err != nil {
+        return err
+    }
+    log.Printf("Answer A: %v", answer)
+    return nil
+}
+
+func partB(ctx *cli.Context) error {
+    answer, err := processB(aoc.PreparePuzzle(puzzle))
+    if err != nil {
+        return err
+    }
+    log.Printf("Answer B: %v", answer)
+    return nil
 }
 
 type handType int
@@ -62,15 +81,15 @@ type hand struct {
 	ht handType
 }
 
-func process(puzzle []string) error {
+func processA(puzzle []string) (int, error) {
 	var hands []*hand
 	for _, line := range puzzle {
 		h, err := decode(line)
 		if err != nil {
-			return err
+			return 0, err
 		}
 		hands = append(hands, h)
-		logger.Printf("hand: %v", h)
+		log.Printf("hand: %v", h)
 	}
 	sort.Slice(hands, func(i, j int) bool {
 		if hands[i].ht == hands[j].ht {
@@ -84,19 +103,18 @@ func process(puzzle []string) error {
 		}
 		return hands[i].ht < hands[j].ht
 	})
-	reportTotal(hands)
-	return nil
+	return reportTotal(hands), nil
 }
 
-func processJ(puzzle []string) error {
+func processB(puzzle []string) (int, error) {
 	var hands []*hand
 	for _, line := range puzzle {
 		h, err := decodeJ(line)
 		if err != nil {
-			return err
+			return 0, err
 		}
 		hands = append(hands, h)
-		logger.Printf("hand: %v", h)
+		log.Printf("hand: %v", h)
 	}
 	sort.Slice(hands, func(i, j int) bool {
 		if hands[i].ht == hands[j].ht {
@@ -110,20 +128,19 @@ func processJ(puzzle []string) error {
 		}
 		return hands[i].ht < hands[j].ht
 	})
-	reportTotal(hands)
-	return nil
+	return reportTotal(hands), nil
 }
 
-func reportTotal(hands []*hand) {
-	logger.Printf("======")
-	total := int64(0)
+func reportTotal(hands []*hand) int {
+	log.Printf("======")
+	total := 0
 	for i, h := range hands {
 		rank := len(hands)-i
-		n := int64(h.bid * rank)
-		logger.Printf("#%v: %v (%v * %v = %v)", rank, h, rank, h.bid, n)
+		n := h.bid * rank
+		log.Printf("#%v: %v (%v * %v = %v)", rank, h, rank, h.bid, n)
 		total += n
 	}
-	logger.Printf("total=%v", total)
+	return total
 }
 
 func decode(line string) (*hand, error) {
@@ -317,6 +334,6 @@ func testHL() {
 	s := "AKQJT98765432"
 	t := "3"[0]
 	for i:=0; i<len(s); i++ {
-		logger.Printf("%v<%v = %v", string(t), string(s[i]), handLess(t, s[i]))
+		log.Printf("%v<%v = %v", string(t), string(s[i]), handLess(t, s[i]))
 	}
 }
