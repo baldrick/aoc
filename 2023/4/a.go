@@ -1,46 +1,65 @@
-package main
+package day4
 
 import (
-	"fmt"
-	"flag"
-	"log"
-	"math"
-	"regexp"
-	"strconv"
-	"strings"
+    _ "embed"
+    "fmt"
+    "log"
+    "math"
+    "regexp"
+    "strconv"
+    "strings"
 
-	"github.com/baldrick/aoc/2023/aoc"
+    "github.com/baldrick/aoc/2023/aoc"
+    "github.com/urfave/cli"
 )
 
 const (
-	year = 2023
-	day = 4
+    year = 2023
+    day = 4
 )
 
 var (
-	inputFile = flag.String("f", "test", "Puzzle file (partial name) to use")
-	logger = log.Default()
+    //go:embed puzzle.txt
+    puzzle string
+
+    // A is the command to use to run part A for this day.
+    A = &cli.Command{
+        Name:  "day4A",
+        Usage: "Day 4 part A",
+        Action: partA,
+    }
+    B = &cli.Command{
+        Name:  "day4B",
+        Usage: "Day 4 part B",
+        Action: partB,
+    }
 )
 
-func main() {
-	flag.Parse()
-	puzzle, err := aoc.GetPuzzleInput(*inputFile, year, day)
-	if err != nil {
-		logger.Fatalf("oops: %v\n", err)
-		return
-	}
-	if err := processB(puzzle); err != nil {
-		logger.Fatalf("oops: %v\n", err)
-	}
+func partA(ctx *cli.Context) error {
+    answer, err := processA(aoc.PreparePuzzle(puzzle))
+    if err != nil {
+        return err
+    }
+    log.Printf("Answer A: %v", answer)
+    return nil
 }
 
-func process(puzzle []string) error {
+func partB(ctx *cli.Context) error {
+    answer, err := processB(aoc.PreparePuzzle(puzzle))
+    if err != nil {
+        return err
+    }
+    log.Printf("Answer B: %v", answer)
+    return nil
+}
+
+func processA(puzzle []string) (int, error) {
 	total := float64(0)
 	for _, line := range puzzle {
 		re := regexp.MustCompile(`Card *[0-9]*: ([ 0-9]*)\|([0-9 ]*)`)
 		matches := re.FindStringSubmatch(line)
 		if len(matches) != 3 {
-			return fmt.Errorf("len(matches)=%v, want 3", len(matches))
+			return 0, fmt.Errorf("len(matches)=%v, want 3", len(matches))
 		}
 		cards := numberSet(matches[1])
 		winning := numberSet(matches[2])
@@ -50,13 +69,13 @@ func process(puzzle []string) error {
 			score = math.Pow(float64(2), float64(overlap-1))
 			total += score
 		}
-		//logger.Printf("%v -> cards %v, winning %v, overlap %v, score %v", line, cards, winning, overlap, score)
-	}
-	logger.Printf("total = %v", total)
-	return nil
+		//log.Printf("%v -> cards %v, winning %v, overlap %v, score %v", line, cards, winning, overlap, score)
+    }
+    log.Printf("%v puzzle lines processed", len(puzzle))
+    return int(total), nil
 }
 
-func processB(puzzle []string) error {
+func processB(puzzle []string) (int, error) {
 	cardCount := make(map[string]int)
 	for n, _ := range puzzle {
 		cardCount[fmt.Sprintf("%v", n+1)] = 1
@@ -65,12 +84,12 @@ func processB(puzzle []string) error {
 		re := regexp.MustCompile(`Card *([0-9]*): ([ 0-9]*)\|([0-9 ]*)`)
 		matches := re.FindStringSubmatch(line)
 		if len(matches) != 4 {
-			return fmt.Errorf("len(matches)=%v, want 3", len(matches))
+			return 0, fmt.Errorf("len(matches)=%v, want 3", len(matches))
 		}
 		card := matches[1]
 		countOfThisCard, ok := cardCount[card]
 		if !ok {
-			return fmt.Errorf("failed to find card %v", card)
+			return 0, fmt.Errorf("failed to find card %v", card)
 		}
 		cards := numberSet(matches[2])
 		winning := numberSet(matches[3])
@@ -78,14 +97,13 @@ func processB(puzzle []string) error {
 		for n:=1; n<=overlap && n<len(puzzle); n++ {
 			cardCount[addOne(card,n)] += countOfThisCard
 		}
-		logger.Printf("%v -> cards %v, winning %v, overlap %v", line, cards, winning, overlap)
+		log.Printf("%v -> cards %v, winning %v, overlap %v", line, cards, winning, overlap)
 	}
 	total := 0
 	for _, v := range cardCount {
 		total += v
-	}
-	logger.Printf("total = %v", total)
-	return nil
+    }
+    return total, nil
 }
 
 func numberSet(s string) *aoc.StringSet {

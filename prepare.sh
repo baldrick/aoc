@@ -31,7 +31,7 @@ fileReplace() {
 }
 
 updateApp() {
-    clidays="1 2 3 9 $(seq 10 25)"
+    clidays="1 2 3 4 9 $(seq 10 25)"
     deps=""
     imports=""
     cmds=""
@@ -99,6 +99,6 @@ showInstructions() {
 init $@
 echo "Preparing $year/$day"
 updateApp
-createCode
-getPuzzle
-showInstructions
+#createCode
+#getPuzzle
+#showInstructions
