@@ -42,9 +42,9 @@ func GetPuzzleInput(inputFile string, year, day int) ([]string, error) {
 }
 
 func PreparePuzzle(puzzle string) []string {
-    lines := strings.Split(puzzle, "\n")
-    if len(lines[len(lines)-1]) == 0 {
-        lines = lines[:len(lines)-2]
+	lines := strings.Split(puzzle, "\n")
+    for ; len(lines[len(lines)-1]) == 0 ; {
+        lines = lines[:len(lines)-1]
     }
     return lines
 }
