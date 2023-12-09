@@ -4,7 +4,6 @@ go_library(
     name = "8_lib",
     srcs = [
         "a.go",
-        "b.go",
     ],
     data = glob(["*.txt"]),
     importpath = "github.com/baldrick/aoc/2023/8",
