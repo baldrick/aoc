@@ -14,8 +14,6 @@ const (
 	day = 1
 )
 
-
-
 var (
 	// A is the command to use to run part A for this day.
 	A = &cli.Command{

@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"github.com/baldrick/aoc/2023/aoc"
+	"github.com/urfave/cli"
 )
 
 const (
@@ -14,25 +15,54 @@ const (
 )
 
 var (
-	inputFile = flag.String("f", "test", "Puzzle file (partial name) to use")
+	// A is the command to use to run part A for this day.
+	A = &cli.Command{
+		Name:  "day{{DAY}}A",
+		Usage: "Day {{DAY}} part A",
+		Flags: aoc.Flags,
+		Action: partA,
+	}
+	B = &cli.Command{
+		Name:  "day{{DAY}}B",
+		Usage: "Day {{DAY}} part B",
+		Flags: aoc.Flags,
+		Action: partB,
+	}
 	logger = log.Default()
 )
 
-func main() {
-	flag.Parse()
-	puzzle, err := aoc.GetPuzzleInput(*inputFile, year, day)
+func partA(ctx *cli.Context) error {
+	puzzle, err := aoc.GetPuzzleInput(ctx.String("f"), year, day)
 	if err != nil {
-		logger.Fatalf("oops: %v\n", err)
-		return
+		return fmt.Errorf("oops: %v\n", err)
 	}
-	if err := process(puzzle); err != nil {
-		logger.Fatalf("oops: %v\n", err)
+	answer, err := processA(puzzle)
+	if err != nil {
+		return err
 	}
+	log.Printf("Answer: %v", answer)
 }
 
-func process(puzzle []string) error {
+func partB(ctx *cli.Context) error {
+	puzzle, err := aoc.GetPuzzleInput(ctx.String("f"), year, day)
+	if err != nil {
+		return fmt.Errorf("oops: %v\n", err)
+	}
+
+	answer, err := processB(puzzle)
+	if err != nil {
+		return err
+	}
+	log.Printf("Answer: %v", answer)
+}
+
+func processA(puzzle []string) (int, error) {
 	for _, line := range puzzle {
 		logger.Print(line)
 	}
-	return fmt.Errorf("Not yet implemented")
+	return 0, fmt.Errorf("Not yet implemented")
+}
+
+func processB(puzzle []string) (int, error) {
+	return 0, fmt.Errorf("Not yet implemented")
 }
