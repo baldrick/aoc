@@ -41,7 +41,7 @@ updateApp() {
         then
             imports="$imports\\n    day$d \"github.com\/baldrick\/aoc\/2023\/$d\""
             cmds="$cmds\\n            *day$d.A, *day$d.B,"
-            deps="$deps\\n        \"\/\/2023\/$d\:${d}_lib\","
+            deps="$deps\\n        \"\/\/2023\/$d\:${d}\","
         fi
     done
     fileReplace "{{DEPS}}" "$deps" templates/template.aoc.BUILD.bazel ${year}/BUILD.bazel force
@@ -52,11 +52,16 @@ updateApp() {
 
 createCode() {
     tmp=/tmp/prepare_$$
+
     fileReplace "{{DAY}}" "$day" templates/a.go.template $tmp
     fileReplace "{{YEAR}}" "$year" $tmp $year/$day/a.go
 
+    fileReplace "{{DAY}}" "$day" templates/a_test.go.template $tmp force
+    fileReplace "{{YEAR}}" "$year" $tmp $year/$day/a_test.go
+
     fileReplace "{{DAY}}" "$day" templates/template.BUILD.bazel $tmp force
     fileReplace "{{YEAR}}" "$year" $tmp $year/$day/BUILD.bazel
+
     rm $tmp
 }
 
@@ -72,13 +77,14 @@ getPuzzle() {
 }
 
 showInstructions() {
+    testcmd="blaze test $year/$day/${day}_test"
     which pbcopy 2>/dev/null
     if [ $? -eq 0 ]
     then
-        echo "blaze run $year/$day -- day${day}A" | pbcopy
-        echo "To run day${day}: blaze run $year/$day -- day9A (already in the clipboard for you)"
+        echo $testcmd | pbcopy
+        echo "To test, run: $testcmd (already in the clipboard for you)"
     else
-        echo "To run day${day}: blaze run $year/$day -- day9A"
+        echo "To test, run: $testcmd"
     fi
 }
 
@@ -87,4 +93,4 @@ echo "Preparing $year/$day"
 updateApp
 createCode
 getPuzzle
-showInstructions()
+showInstructions

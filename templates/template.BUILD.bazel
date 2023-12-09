@@ -1,7 +1,7 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
-    name = "{{DAY}}_lib",
+    name = "{{DAY}}",
     srcs = ["a.go"],
     data = glob(["*.txt"]),
     importpath = "github.com/baldrick/aoc/{{YEAR}}/{{DAY}}",
@@ -10,4 +10,10 @@ go_library(
         "//2023/aoc",
         "@com_github_urfave_cli//:cli",
     ],
+)
+
+go_test(
+    name = "{{DAY}}_test",
+    srcs = ["a_test.go"],
+    embed = [":{{DAY}}"],
 )
