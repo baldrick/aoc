@@ -2,10 +2,10 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
     name = "{{DAY}}",
-    visibility = ["//visibility:public"],
-    importpath = "github.com/baldrick/aoc/{{YEAR}}/{{DAY}}",
     srcs = ["a.go"],
-    embedsrcs = glob(["*.txt"]),
+    embedsrcs = ["puzzle.txt"],
+    importpath = "github.com/baldrick/aoc/{{YEAR}}/{{DAY}}",
+    visibility = ["//visibility:public"],
     deps = [
         "//2023/aoc",
         "@com_github_urfave_cli//:cli",
@@ -14,7 +14,7 @@ go_library(
 
 go_test(
     name = "{{DAY}}_test",
-    visibility = ["//visibility:public"],
     srcs = ["a_test.go"],
     embed = [":{{DAY}}"],
+    visibility = ["//visibility:public"],
 )

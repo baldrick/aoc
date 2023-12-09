@@ -3,7 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 go_library(
     name = "9",
     srcs = ["a.go"],
-    embedsrcs = glob(["*.txt"]),
+    embedsrcs = ["puzzle.txt"],
     importpath = "github.com/baldrick/aoc/2023/9",
     visibility = ["//visibility:public"],
     deps = [
@@ -15,6 +15,6 @@ go_library(
 go_test(
     name = "9_test",
     srcs = ["a_test.go"],
-    visibility = ["//visibility:public"],
     embed = [":9"],
+    visibility = ["//visibility:public"],
 )

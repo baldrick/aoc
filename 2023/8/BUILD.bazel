@@ -2,9 +2,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 
 go_library(
     name = "8_lib",
-    srcs = [
-        "a.go",
-    ],
+    srcs = ["a.go"],
     data = glob(["*.txt"]),
     importpath = "github.com/baldrick/aoc/2023/8",
     visibility = ["//visibility:private"],
