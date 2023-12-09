@@ -7,6 +7,18 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/urfave/cli"
+)
+
+var (
+	Flags = []cli.Flag{
+		&cli.StringFlag{
+			Name: "f",
+			Value: "test",
+			Usage: "input file for the puzzle",
+		},
+	}
 )
 
 func GetPuzzleInput(inputFile string, year, day int) ([]string, error) {

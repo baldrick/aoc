@@ -2,12 +2,11 @@ package day1
 
 import (
 	"fmt"
-	"flag"
 	"regexp"
 	"strconv"
 
 	"github.com/baldrick/aoc/2023/aoc"
-	"github.com/urfave/urfave_cli"
+	"github.com/urfave/cli"
 )
 
 const (
@@ -15,31 +14,37 @@ const (
 	day = 1
 )
 
+
+
 var (
-//	inputFile = flag.String("f", "test", "Puzzle file (partial name) to use")
-	cmd := &cli.Command{
-		Name:  "1A",
+	// A is the command to use to run part A for this day.
+	A = &cli.Command{
+		Name:  "day1A",
 		Usage: "Day 1 part A",
-		Flags: []cli.Flag{
-			cli.StringFlag{
-				Name: "f",
-				Default: "test",
-			}
-		},
+		Flags: aoc.Flags,
 		Action: partA,
+	}
+	B = &cli.Command{
+		Name:  "day1B",
+		Usage: "Day 1 part B",
+		Flags: aoc.Flags,
+		Action: partB,
 	}
 )
 
-func partA(ctx context.Context, cmd *cli.Command) error {
-//	flag.Parse()
-	puzzle, err := aoc.GetPuzzleInput(cmd.GetStringFlag(f), year, day)
+func partA(ctx *cli.Context) error {
+	return fmt.Errorf("needs code adjustment to unwind part B :)")
+}
+
+func partB(ctx *cli.Context) error {
+	puzzle, err := aoc.GetPuzzleInput(ctx.String("f"), year, day)
 	if err != nil {
-		fmt.Printf("oops: %v\n", err)
-		return
+		return fmt.Errorf("oops: %v\n", err)
 	}
 	if err := process(puzzle); err != nil {
-		fmt.Printf("oops: %v", err)
+		return fmt.Errorf("oops: %v", err)
 	}
+	return nil
 }
 
 func process(puzzle []string) error {
