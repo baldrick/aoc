@@ -29,7 +29,6 @@ var (
         Usage: "Day {{DAY}} part B",
         Action: partB,
     }
-    logger = log.Default()
 )
 
 func partA(ctx *cli.Context) error {
@@ -52,7 +51,7 @@ func partB(ctx *cli.Context) error {
 
 func processA(puzzle []string) (int, error) {
     for _, line := range puzzle {
-        logger.Print(line)
+        log.Print(line)
     }
     return 0, fmt.Errorf("Not yet implemented")
 }
