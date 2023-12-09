@@ -12,6 +12,8 @@ Really it's an excuse to learn a new language.  That hasn't often been the case 
 
 This code is most often knocked out in the evening after work and once I've got a working solution I don't bother to refine it.  So don't expect clean code ;-)  And I sometimes just fiddle with part A to get part B done which means code needs unfiddling to re-run part A...
 
+Finally, as I progress through the puzzles I'll change my approach (e.g. use proper tests instead of simply a different input file) but generally only apply it from that point onwards.  Re-running older solutions may therefore require work.
+
 # 2021
 
 I used Python for this year.  The language has been around for years but the v2/v3 debacle put me off learning it.  Until now.  Make sure `aoc/2021` is included in your `PYTHONPATH` for these solutions to work.  Python >=3.10 is required.
