@@ -1,7 +1,7 @@
 package day9
 
 import (
-    "fmt"
+    _ "embed"
     "log"
     "strings"
 
@@ -15,28 +15,25 @@ const (
 )
 
 var (
+    //go:embed puzzle.txt
+    puzzle string
+
     // A is the command to use to run part A for this day.
     A = &cli.Command{
         Name:  "day9A",
         Usage: "Day 9 part A",
-        Flags: aoc.Flags,
         Action: partA,
     }
     B = &cli.Command{
         Name:  "day9B",
         Usage: "Day 9 part B",
-        Flags: aoc.Flags,
         Action: partB,
     }
     logger = log.Default()
 )
 
 func partA(ctx *cli.Context) error {
-    puzzle, err := aoc.GetPuzzleInput(ctx.String("f"), year, day)
-    if err != nil {
-        return fmt.Errorf("oops: %v\n", err)
-    }
-    answer, err := processA(puzzle)
+    answer, err := processA(aoc.PreparePuzzle(puzzle))
     if err != nil {
         return err
     }
@@ -45,12 +42,7 @@ func partA(ctx *cli.Context) error {
 }
 
 func partB(ctx *cli.Context) error {
-    puzzle, err := aoc.GetPuzzleInput(ctx.String("f"), year, day)
-    if err != nil {
-        return fmt.Errorf("oops: %v\n", err)
-    }
-
-    answer, err := processB(puzzle)
+    answer, err := processB(aoc.PreparePuzzle(puzzle))
     if err != nil {
         return err
     }

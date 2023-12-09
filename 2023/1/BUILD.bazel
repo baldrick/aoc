@@ -1,7 +1,7 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
-    name = "1_lib",
+    name = "1",
     srcs = ["a.go"],
     data = glob(["*.txt"]),
     importpath = "github.com/baldrick/aoc/2023/1",

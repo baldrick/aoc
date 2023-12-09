@@ -41,6 +41,14 @@ func GetPuzzleInput(inputFile string, year, day int) ([]string, error) {
 	return puzzle, nil
 }
 
+func PreparePuzzle(puzzle string) []string {
+    lines := strings.Split(puzzle, "\n")
+    if len(lines[len(lines)-1]) == 0 {
+        lines = lines[:len(lines)-2]
+    }
+    return lines
+}
+
 func MaxInt(a, b int) int {
 	if a > b {
 		return a

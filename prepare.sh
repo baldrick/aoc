@@ -77,7 +77,7 @@ getPuzzle() {
 }
 
 showInstructions() {
-    testcmd="blaze test $year/$day/${day}_test"
+    testcmd="blaze test --test_output=all $year/$day/${day}_test"
     which pbcopy 2>/dev/null
     if [ $? -eq 0 ]
     then
