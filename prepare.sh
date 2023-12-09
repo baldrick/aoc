@@ -1,33 +1,81 @@
-if [ -z "$1" ]
-then
-    year=$(date | cut -d ' ' -f 5)
-    day=$(date | cut -d ' ' -f 3)
-else
-    year=$1
-    day=$2
-    if [ -z "$day" ]
+updateApp() {
+    clidays="1 9 $(seq 10 25)"
+    deps=""
+    imports=""
+    cmds=""
+    for d in $clidays
+    do
+        if [[ $d -le $day ]]
+        then
+            imports="$imports\\n    day$d \"github.com\/baldrick\/aoc\/2023\/$d\""
+            cmds="$cmds\\n            *day$d.A, *day$d.B,"
+            deps="$deps\\n        \"\/\/2023\/$d\:${d}_lib\","
+        fi
+    done
+    fileReplace "{{DEPS}}" "$deps" templates/template.aoc.BUILD.bazel ${year}/BUILD.bazel force
+    fileReplace "{{IMPORTS}}" "$imports" templates/aoc.go.template ${year}/aoc.go.2 force
+    fileReplace "{{CMDS}}" "$cmds" ${year}/aoc.go.2 ${year}/aoc.go force
+    rm ${year}/aoc.go.2
+}
+
+fileReplace() {
+    search=$1
+    replace=$2
+    infile=$3
+    outfile=$4
+    force=$5
+    if [[ -f $outfile && "$force" != "force" ]]
     then
-        echo "If year is specified, day must also be specified..."
-        exit 1
+        echo "$outfile already exists, delete it if you want this script to replace it"
+    else
+        sed "s/$search/$replace/g" <"$infile" >"$outfile"
     fi
-fi
-puzzle=$year/$day/puzzle.txt
+}
 
-[ -d $year/$day ] || mkdir -p $year/$day
+createCode() {
+    tmp=/tmp/prepare_$$
+    fileReplace "{{DAY}}" "$day" templates/a.go.template $tmp
+    fileReplace "{{YEAR}}" "$year" $tmp $year/$day/a.go
 
-if [ -f ${puzzle} ]
-then
-    echo "${puzzle} already exists"
-else
-    session=$(cat session)
-    curl --cookie ${session} -o ${puzzle} https://adventofcode.com/${year}/day/${day}/input
-fi
+    fileReplace "{{DAY}}" "$day" templates/template.BUILD.bazel $tmp force
+    fileReplace "{{YEAR}}" "$year" $tmp $year/$day/BUILD.bazel
+    rm $tmp
+}
 
-if [ ! -f $year/$day/$template ]
-then
-    sed "s/{{DAY}}/$day/" <templates/a.go.template | sed "s/{{YEAR}}/$year/" >$year/$day/a.go
-    sed "s/{{DAY}}/$day/" <templates/template.BUILD.bazel | sed "s/{{YEAR}}/$year/" >$year/$day/BUILD.bazel
-fi
+getPuzzle() {
+    puzzle=$year/$day/puzzle.txt
+    if [ -f ${puzzle} ]
+    then
+        echo "${puzzle} already exists"
+    else
+        session=$(cat session)
+        curl --cookie ${session} -o ${puzzle} https://adventofcode.com/${year}/day/${day}/input
+    fi
+}
+
+init() {
+    if [ -z "$1" ]
+    then
+        year=$(date | cut -d ' ' -f 5)
+        day=$(date | cut -d ' ' -f 3)
+    else
+        year=$1
+        day=$2
+        if [ -z "$day" ]
+        then
+            echo "If year is specified, day must also be specified..."
+            exit 1
+        fi
+    fi
+
+    [ -d $year/$day ] || mkdir -p $year/$day
+}
+
+init $@
+echo "Preparing $year/$day"
+updateApp
+createCode
+getPuzzle
 
 which pbcopy 2>/dev/null
 if [ $? -eq 0 ]

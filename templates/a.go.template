@@ -1,68 +1,69 @@
-package main
+package day{{DAY}}
 
 import (
-	"fmt"
-	"flag"
-	"log"
+    "fmt"
+    "log"
 
-	"github.com/baldrick/aoc/2023/aoc"
-	"github.com/urfave/cli"
+    "github.com/baldrick/aoc/2023/aoc"
+    "github.com/urfave/cli"
 )
 
 const (
-	year = {{YEAR}}
-	day = {{DAY}}
+    year = {{YEAR}}
+    day = {{DAY}}
 )
 
 var (
-	// A is the command to use to run part A for this day.
-	A = &cli.Command{
-		Name:  "day{{DAY}}A",
-		Usage: "Day {{DAY}} part A",
-		Flags: aoc.Flags,
-		Action: partA,
-	}
-	B = &cli.Command{
-		Name:  "day{{DAY}}B",
-		Usage: "Day {{DAY}} part B",
-		Flags: aoc.Flags,
-		Action: partB,
-	}
-	logger = log.Default()
+    // A is the command to use to run part A for this day.
+    A = &cli.Command{
+        Name:  "day{{DAY}}A",
+        Usage: "Day {{DAY}} part A",
+        Flags: aoc.Flags,
+        Action: partA,
+    }
+    B = &cli.Command{
+        Name:  "day{{DAY}}B",
+        Usage: "Day {{DAY}} part B",
+        Flags: aoc.Flags,
+        Action: partB,
+    }
+    logger = log.Default()
 )
 
 func partA(ctx *cli.Context) error {
-	puzzle, err := aoc.GetPuzzleInput(ctx.String("f"), year, day)
-	if err != nil {
-		return fmt.Errorf("oops: %v\n", err)
-	}
-	answer, err := processA(puzzle)
-	if err != nil {
-		return err
-	}
-	log.Printf("Answer: %v", answer)
+    puzzle, err := aoc.GetPuzzleInput(ctx.String("f"), year, day)
+    if err != nil {
+        return fmt.Errorf("oops: %v\n", err)
+    }
+    answer, err := processA(puzzle)
+    if err != nil {
+        return err
+    }
+    log.Printf("Answer A: %v", answer)
+    return nil
 }
 
 func partB(ctx *cli.Context) error {
-	puzzle, err := aoc.GetPuzzleInput(ctx.String("f"), year, day)
-	if err != nil {
-		return fmt.Errorf("oops: %v\n", err)
-	}
+    puzzle, err := aoc.GetPuzzleInput(ctx.String("f"), year, day)
+    if err != nil {
+        return fmt.Errorf("oops: %v\n", err)
+    }
 
-	answer, err := processB(puzzle)
-	if err != nil {
-		return err
-	}
-	log.Printf("Answer: %v", answer)
+    answer, err := processB(puzzle)
+    if err != nil {
+        return err
+    }
+    log.Printf("Answer B: %v", answer)
+    return nil
 }
 
 func processA(puzzle []string) (int, error) {
-	for _, line := range puzzle {
-		logger.Print(line)
-	}
-	return 0, fmt.Errorf("Not yet implemented")
+    for _, line := range puzzle {
+        logger.Print(line)
+    }
+    return 0, fmt.Errorf("Not yet implemented")
 }
 
 func processB(puzzle []string) (int, error) {
-	return 0, fmt.Errorf("Not yet implemented")
+    return 0, fmt.Errorf("Not yet implemented")
 }
