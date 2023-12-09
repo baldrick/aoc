@@ -1,16 +1,10 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "1_lib",
     srcs = ["a.go"],
     data = glob(["*.txt"]),
     importpath = "github.com/baldrick/aoc/2023/1",
-    visibility = ["//visibility:private"],
-    deps = ["//2023/aoc"],
-)
-
-go_binary(
-    name = "1",
-    embed = [":1_lib"],
     visibility = ["//visibility:public"],
+    deps = ["//2023/aoc"],
 )

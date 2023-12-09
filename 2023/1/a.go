@@ -1,4 +1,4 @@
-package main
+package day1
 
 import (
 	"fmt"
@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/baldrick/aoc/2023/aoc"
+	"github.com/urfave/urfave_cli"
 )
 
 const (
@@ -15,12 +16,23 @@ const (
 )
 
 var (
-	inputFile = flag.String("f", "test", "Puzzle file (partial name) to use")
+//	inputFile = flag.String("f", "test", "Puzzle file (partial name) to use")
+	cmd := &cli.Command{
+		Name:  "1A",
+		Usage: "Day 1 part A",
+		Flags: []cli.Flag{
+			cli.StringFlag{
+				Name: "f",
+				Default: "test",
+			}
+		},
+		Action: partA,
+	}
 )
 
-func main() {
-	flag.Parse()
-	puzzle, err := aoc.GetPuzzleInput(*inputFile, year, day)
+func partA(ctx context.Context, cmd *cli.Command) error {
+//	flag.Parse()
+	puzzle, err := aoc.GetPuzzleInput(cmd.GetStringFlag(f), year, day)
 	if err != nil {
 		fmt.Printf("oops: %v\n", err)
 		return

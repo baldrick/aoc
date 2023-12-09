@@ -1,6 +1,15 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
+    name = "{{DAY}}_lib",
+    srcs = ["a.go"],
+    data = glob(["*.txt"]),
+    importpath = "github.com/baldrick/aoc/{{YEAR}}/{{DAY}}",
+    visibility = ["//visibility:private"],
+    deps = ["//2023/aoc"],
+)
+
+go_library(
     name = "templates_lib",
     srcs = ["a.go"],
     importpath = "github.com/baldrick/aoc/templates",

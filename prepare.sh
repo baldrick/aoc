@@ -23,13 +23,11 @@ else
     curl --cookie ${session} -o ${puzzle} https://adventofcode.com/${year}/day/${day}/input
 fi
 
-for template in a.go BUILD.bazel
-do
-    if [ ! -f $year/$day/$template ]
-    then
-        sed "s/{{DAY}}/$day/" <templates/$template | sed "s/{{YEAR}}/$year/" >$year/$day/$template
-    fi
-done
+if [ ! -f $year/$day/$template ]
+then
+    sed "s/{{DAY}}/$day/" <templates/a.go.template | sed "s/{{YEAR}}/$year/" >$year/$day/a.go
+    sed "s/{{DAY}}/$day/" <templates/template.BUILD.bazel | sed "s/{{YEAR}}/$year/" >$year/$day/BUILD.bazel
+fi
 
 which pbcopy 2>/dev/null
 if [ $? -eq 0 ]
