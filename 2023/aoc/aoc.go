@@ -90,6 +90,14 @@ func MustAtoi(s string) int {
 	return n
 }
 
+func MustAtoiAll(s []string) []int {
+	var numbers []int
+	for _, n := range s {
+		numbers = append(numbers, MustAtoi(n))
+	}
+	return numbers
+}
+
 func StripAndParse(strip, line string) ([]int, error) {
 	re := regexp.MustCompile(strip + ` *(.*)`)
 	matches := re.FindStringSubmatch(line)
