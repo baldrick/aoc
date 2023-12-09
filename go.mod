@@ -1,4 +1,4 @@
-module gavinmanning.com
+module github.com/baldrick/aoc
 
 go 1.21
 
