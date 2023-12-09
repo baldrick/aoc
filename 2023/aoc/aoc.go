@@ -3,6 +3,7 @@ package aoc
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"regexp"
 	"strconv"
@@ -45,7 +46,8 @@ func PreparePuzzle(puzzle string) []string {
 	lines := strings.Split(puzzle, "\n")
     for ; len(lines[len(lines)-1]) == 0 ; {
         lines = lines[:len(lines)-1]
-    }
+	}
+	log.Printf("Puzzle contains %v lines", len(lines))
     return lines
 }
 

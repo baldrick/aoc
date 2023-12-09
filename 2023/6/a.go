@@ -1,44 +1,76 @@
-package main
+package day6
 
 import (
-	"fmt"
-	"flag"
-	"log"
-	"regexp"
-	"strconv"
+    _ "embed"
+    "fmt"
+    "log"
+    "regexp"
+    "strconv"
 
-	"github.com/baldrick/aoc/2023/aoc"
+    "github.com/baldrick/aoc/2023/aoc"
+    "github.com/urfave/cli"
 )
 
 const (
-	year = 2023
-	day = 6
+    year = 2023
+    day = 6
 )
 
 var (
-	inputFile = flag.String("f", "test", "Puzzle file (partial name) to use")
-	logger = log.Default()
+    //go:embed puzzle.txt
+    puzzle string
+
+    // A is the command to use to run part A for this day.
+    A = &cli.Command{
+        Name:  "day6A",
+        Usage: "Day 6 part A",
+        Action: partA,
+    }
+    B = &cli.Command{
+        Name:  "day6B",
+        Usage: "Day 6 part B",
+        Action: partB,
+    }
 )
 
-func main() {
-	flag.Parse()
-	puzzle, err := aoc.GetPuzzleInput(*inputFile, year, day)
-	if err != nil {
-		logger.Fatalf("oops: %v\n", err)
-		return
-	}
-	if err := process(puzzle); err != nil {
-		logger.Fatalf("oops: %v\n", err)
-	}
+func partA(ctx *cli.Context) error {
+    answer, err := processA(aoc.PreparePuzzle(puzzle))
+    if err != nil {
+        return err
+    }
+    log.Printf("Answer A: %v", answer)
+    return nil
 }
 
-func process(puzzle []string) error {
+func partB(ctx *cli.Context) error {
+    answer, err := processB(aoc.PreparePuzzle(puzzle))
+    if err != nil {
+        return err
+    }
+    log.Printf("Answer B: %v", answer)
+    return nil
+}
+
+func processA(puzzle []string) (int, error) {
 	//Time:      7  15   30
-	//Distance:  9  40  200
+    //Distance:  9  40  200
+    log.Printf("puzzle: %v", puzzle)
+	times := parseLine(puzzle[0])
+	distances := parseLine(puzzle[1])
+    return race(times, distances)
+}
+
+func processB(puzzle []string) (int, error) {
+	//Time:      71530
+	//Distance:  940200
 	times := parseLine2(puzzle[0])
-	distances := parseLine2(puzzle[1])
-	logger.Printf("times: %v", times)
-	logger.Printf("distances: %v", distances)
+    distances := parseLine2(puzzle[1])
+    return race(times, distances)
+}
+
+func race(times, distances []int) (int, error) {
+	log.Printf("times: %v", times)
+	log.Printf("distances: %v", distances)
 	total := 1
 	for n, r := range times {
 		beatenRecord := 0
@@ -52,8 +84,7 @@ func process(puzzle []string) error {
 			total *= beatenRecord
 		}
 	}
-	logger.Printf("total=%v", total)
-	return nil
+	return total, nil
 }
 
 func parseLine(s string) []int {
@@ -69,6 +100,9 @@ func parseLine2(s string) []int {
 }
 
 func atoi(s string) int {
+    if len(s) == 0 {
+        return 0
+    }
 	n, err := strconv.Atoi(s)
 	if err != nil {
 		panic(fmt.Sprintf("Failed to translate %q to number: %v", s, err))

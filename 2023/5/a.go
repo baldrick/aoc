@@ -57,7 +57,7 @@ func processA(puzzle []string) (int, error) {
     for _, line := range puzzle {
         log.Print(line)
     }
-    return 0, fmt.Errorf("Not yet implemented")
+    return 0, fmt.Errorf("If I can be bothered I'll reverse engineer B back to A")
 }
 
 func processB(puzzle []string) (int, error) {
