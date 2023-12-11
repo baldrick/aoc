@@ -6,8 +6,6 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-
-	"github.com/urfave/cli"
 )
 
 func PreparePuzzle(puzzle string) []string {
@@ -17,6 +15,13 @@ func PreparePuzzle(puzzle string) []string {
 	}
 	log.Printf("Puzzle contains %v lines", len(lines))
     return lines
+}
+
+func AbsInt(i int) int {
+	if i < 0 {
+		return -i
+	}
+	return i
 }
 
 func MaxInt(a, b int) int {
