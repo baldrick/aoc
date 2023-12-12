@@ -77,6 +77,29 @@ func (ss *StringSet) Len() int {
 	return len(ss.s)
 }
 
+type IntSet struct {
+	s map[int]struct{}
+}
+
+func NewIntSet() *IntSet {
+	return &IntSet{s: make(map[int]struct{})}
+}
+
+func (s *IntSet) Add(i int) {
+	s.s[i] = struct{}{}
+}
+
+func (s *IntSet) Contains(i int) bool {
+	_, ok := s.s[i]
+	return ok
+}
+
+func (s *IntSet) MapOver(f func(int)) {
+	for k,_ := range s.s {
+		f(k)
+	}
+}
+
 func MustAtoi(s string) int {
 	n, err := strconv.Atoi(s)
 	if err != nil {
