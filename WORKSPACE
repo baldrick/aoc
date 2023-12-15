@@ -19,7 +19,7 @@ http_archive(
 )
 
 load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
-load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
+load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
 
 ############################################################
 # Define your own dependencies here using go_repository.
@@ -28,6 +28,13 @@ load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
 ############################################################
 
 load("//:deps.bzl", "go_dependencies")
+
+go_repository(
+    name = "com_github_google_go_cmp",
+    importpath = "github.com/google/go-cmp",
+    sum = "h1:ofyhxvXcZhMsU5ulbFiLKl/XBFqE1GSq7atu8tAmTRI=",
+    version = "v0.6.0",
+)
 
 # gazelle:repository_macro deps.bzl%go_dependencies
 go_dependencies()

@@ -3,6 +3,7 @@ package aoc
 import (
 	"fmt"
 	"log"
+	"math"
 	"regexp"
 	"strconv"
 	"strings"
@@ -36,6 +37,10 @@ func MinInt(a, b int) int {
 		return b
 	}
 	return a
+}
+
+func ModInt(a, b int) int {
+	return int(math.Mod(float64(a), float64(b)))
 }
 
 type StringSet struct {

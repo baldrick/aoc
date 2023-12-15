@@ -2,8 +2,17 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "aoc",
-    srcs = ["aoc.go"],
+    srcs = [
+        "aoc.go",
+    ],
     importpath = "github.com/baldrick/aoc/2023/aoc",
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "grid",
+    srcs = ["grid.go"],
+    importpath = "github.com/baldrick/aoc/2023/grid",
     visibility = ["//visibility:public"],
 )
 
