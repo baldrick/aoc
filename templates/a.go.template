@@ -9,11 +9,6 @@ import (
     "github.com/urfave/cli"
 )
 
-const (
-    year = {{YEAR}}
-    day = {{DAY}}
-)
-
 var (
     //go:embed puzzle.txt
     puzzle string
@@ -21,11 +16,13 @@ var (
     // A is the command to use to run part A for this day.
     A = &cli.Command{
         Name:  "day{{DAY}}A",
+        Aliases: "day{{DAY}}a",
         Usage: "Day {{DAY}} part A",
         Action: partA,
     }
     B = &cli.Command{
         Name:  "day{{DAY}}B",
+        Aliases: "day{{DAY}}b",
         Usage: "Day {{DAY}} part B",
         Action: partB,
     }
