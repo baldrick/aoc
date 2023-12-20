@@ -76,7 +76,7 @@ func processB(puzzle []string) (int, error) {
 		pl := findEnd(ghost, moves, nodes)
 		pathLengths = append(pathLengths, pl)
 	}
-	return aoc.LCM(pathLengths[0], pathLengths[1], pathLengths[2:]...), nil
+	return aoc.LCM(pathLengths...), nil
 }
 
 type node struct {

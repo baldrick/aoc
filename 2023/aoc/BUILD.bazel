@@ -17,6 +17,13 @@ go_library(
 )
 
 go_library(
+    name = "ggrid",
+    srcs = ["generic_grid.go"],
+    importpath = "github.com/baldrick/aoc/2023/ggrid",
+    visibility = ["//visibility:public"],
+)
+
+go_library(
     name = "rangemap",
     srcs = ["rangemap.go"],
     importpath = "github.com/baldrick/aoc/2023/rangemap",

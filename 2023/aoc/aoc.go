@@ -121,6 +121,14 @@ func MustAtoiAll(s []string) []int {
 	return numbers
 }
 
+func MustXtoi(s string) int {
+	n, err := strconv.ParseUint(s, 16, 0)
+	if err != nil {
+		panic(fmt.Sprintf("Failed to translate %q to number: %v", s, err))
+	}
+	return int(n)
+}
+
 func StripAndParse(strip, line string) ([]int, error) {
 	re := regexp.MustCompile(strip + ` *(.*)`)
 	matches := re.FindStringSubmatch(line)
@@ -144,7 +152,7 @@ func ParseNumbers(numberList string) ([]int, error) {
 	return numbers, nil
 }
 
-// greatest common divisor (GCD) via Euclidean algorithm
+// GCD finds the grreatest common divisor via Euclidean algorithm.
 func GCD(a, b int) int {
 	for b != 0 {
 		t := b
@@ -154,11 +162,15 @@ func GCD(a, b int) int {
 	return a
 }
 
-// find Least Common Multiple (LCM) via GCD
-func LCM(a, b int, integers ...int) int {
-	result := a * b / GCD(a, b)
+// LCM finds the lowest common multiple via GCD.
+// integers must contain at least two numbers.
+func LCM(integers ...int) int {
+	if len(integers) < 2 {
+		panic(fmt.Sprintf("LCM requires at least two integers not just %v: %v", len(integers), integers))
+	}
+	result := integers[0] * integers[1] / GCD(integers[0], integers[1])
 
-	for i := 0; i < len(integers); i++ {
+	for i := 2; i < len(integers); i++ {
 		result = LCM(result, integers[i])
 	}
 
