@@ -16,13 +16,13 @@ var (
     // A is the command to use to run part A for this day.
     A = &cli.Command{
         Name:  "day{{DAY}}A",
-        Aliases: "day{{DAY}}a",
+        Aliases: []string{"day{{DAY}}a"},
         Usage: "Day {{DAY}} part A",
         Action: partA,
     }
     B = &cli.Command{
         Name:  "day{{DAY}}B",
-        Aliases: "day{{DAY}}b",
+        Aliases: []string{"day{{DAY}}b"},
         Usage: "Day {{DAY}} part B",
         Action: partB,
     }

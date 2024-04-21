@@ -2,6 +2,7 @@ package day10
 
 import (
 	"fmt"
+	"log"
 	"testing"
 )
 
@@ -40,7 +41,7 @@ func Test_day10(t *testing.T) {
 				".L-J.",
 				".....",
 			},
-			wantA: -1,//4,
+			wantA: 4,
 			wantB: 1,
 		},
 		{
@@ -144,6 +145,7 @@ func testPart(t *testing.T, name string, process func([]string) (int, error), in
 
 func TestIsConnected(t *testing.T) {
 	tests := []struct{
+		input []string
 		pipes [][]pipe
 		x, y, x2, y2 int
 		want bool
@@ -214,6 +216,21 @@ func TestIsConnected(t *testing.T) {
 			want: true,
 		},
 		{
+			input: []string{
+				"......",
+				".S--7.",
+				".|..|.",
+				".|F7|.",
+				".LJLJ.",
+				"......",
+			},
+			x: 0,
+			y: 0,
+			x2: 1,
+			y2: 0,
+			want: false,
+		},
+		{
 			// .-
 			// .-
 			pipes: [][]pipe{
@@ -229,6 +246,9 @@ func TestIsConnected(t *testing.T) {
 	}
 	for n, tc := range tests {
 		t.Run(fmt.Sprintf("Test %v", n), func(t *testing.T) {
+			if tc.pipes == nil {
+				_, _, tc.pipes = getPipes(tc.input)
+			}
 			dump(tc.pipes, nil)
 			got := connected(tc.pipes, tc.x, tc.y, tc.x2, tc.y2)
 			t.Logf("%v: got %v, want %v", tc, got, tc.want)
@@ -237,4 +257,20 @@ func TestIsConnected(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestLocationMap(t *testing.T) {
+	m := make(map[location]status)
+	m[location{1,2}] = pathPart
+	m[location{2,1}] = inside
+	m[location{3,4}] = outside
+	m[location{3,4}] = maybeInside
+	s, ok := m[location{3,4}]
+	if !ok {
+		t.Errorf("Failed to get status at 3,4")
+	}
+	if s != maybeInside {
+		t.Errorf("Got %v, want %v at 3,4", s, maybeInside)
+	}
+	log.Printf("map: %v", m)
 }

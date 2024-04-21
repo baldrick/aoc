@@ -61,6 +61,10 @@ type location struct {
     x, y int
 }
 
+func (loc location) hash() int {
+    return 1000*loc.x + loc.y
+}
+
 type where struct {
     x, y int
     h heading
@@ -269,27 +273,53 @@ func countEnclosed(pipes [][]pipe, path map[location]status) int {
     return count
 }
 
-/*try switching to flood fill using a queue*/
-
 func floodFill(pipes [][]pipe, x, y int, path map[location]status) {
-    if y<0 || y>=len(pipes) || x<0 || x>=len(pipes[0]) {
-        log.Printf("%v,%y is outside 0-%v,0-%v", x, y, len(pipes[0]), len(pipes))
+    visited := make(map[location]status)
+    fill(x,y, pipes, path, visited)
+    dump(pipes, path)
+}
+
+func fill(x,y int, pipes [][]pipe, path, visited map[location]status) {
+    if outsideGrid(x,y,pipes) {
+        log.Printf("off grid %v,%v", x,y)
         return
     }
-    log.Printf("floodFill from %v,%v (%v) (path %v)", x, y, pipes[y][x], path[location{x,y}])
+
+    _, ok := visited[location{x,y}]
+    if ok {
+        return
+    }
+    visited[location{x,y}] = pathPart // doesn't matter which status we use
+
     s, ok := path[location{x,y}]
+    log.Printf("floodFill %v,%v (currently %v - %v)", x,y, s,ok)
     if ok && s == outside {
-        log.Printf("outside - %v s:%v", path[location{x,y}], s)
         return
     }
-    if s != pathPart {
+    if !ok {
+        log.Printf("setting %v,%v to %v", x,y, outside)
         path[location{x,y}] = outside
     }
-    if !connected(pipes, x+1, y, x+1, y+1) { floodFill(pipes, x+1, y, path) }
-    log.Printf("x+1 done, now doing y+1 from %v,%v", x, y)
-    //if !connected(pipes, x-1, y, x-1, y+1) { floodFill(pipes, x-1, y, path) }
-    if !connected(pipes, x, y+1, x+1, y+1) { floodFill(pipes, x, y+1, path) }
-    //if !connected(pipes, x, y-1, x+1, y-1) { floodFill(pipes, x, y-1, path) }
+    dump(pipes, path)
+
+    if connected(pipes, x, y, x, y+1) && connected(pipes, x,y, x,y-1) {
+        // Can't move left/right from here.
+    } else {
+        log.Printf("not connected top to bottom %v,%v - %v,%v", x,y, x,y+1)
+        log.Printf("from %v,%v, filling from %v,%v", x,y, x-1,y)
+        fill(x-1, y, pipes, path, visited)
+        log.Printf("from %v,%v, filling from %v,%v", x,y, x+1,y)
+        fill(x+1, y, pipes, path, visited)
+    }
+    if connected(pipes, x, y, x+1, y) && connected(pipes, x,y, x-1,y) {
+        // Can't move up/down from here.
+    } else {
+        log.Printf("not connected left to right %v,%v - %v,%v", x,y, x+1,y)
+        log.Printf("from %v,%v, filling from %v,%v", x,y, x,y-1)
+        fill(x, y-1, pipes, path, visited)
+        log.Printf("from %v,%v, filling from %v,%v", x,y, x,y+1)
+        fill(x, y+1, pipes, path, visited)
+    }
 }
 
 func connected(pipes [][]pipe, x, y, x2, y2 int) bool {

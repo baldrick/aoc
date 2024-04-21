@@ -10,11 +10,17 @@ import (
 )
 
 func PreparePuzzle(puzzle string) []string {
-	lines := strings.Split(puzzle, "\n")
-    for ; len(lines[len(lines)-1]) == 0 ; {
-        lines = lines[:len(lines)-1]
+	split := strings.Split(puzzle, "\n")
+	re := regexp.MustCompile(`^\s*`)
+	var lines []string
+	for _, line := range split {
+		stripped := re.ReplaceAllString(line, "")
+		if len(stripped) == 0 {
+			continue
+		}
+		lines = append(lines, stripped)
 	}
-	log.Printf("Puzzle contains %v lines", len(lines))
+	log.Printf("Puzzle contains %v lines:\n%v", len(lines), strings.Join(lines, "\n"))
     return lines
 }
 

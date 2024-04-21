@@ -1,12 +1,23 @@
 package grid
 
 import (
+	"fmt"
 	"log"
-	//"strings"
 )
 
 type Grid struct {
 	values [][]string
+}
+
+func New(input []string) *Grid {
+	values := make([][]string, len(input))
+	for y, line := range input {
+		values[y] = make([]string, len(line))
+		for x, char := range line {
+			values[y][x] = string(char)
+		}
+	}
+	return &Grid{values}
 }
 
 type GridKey string // so grids can be stored in maps.
@@ -31,17 +42,6 @@ func (g *Grid) CountIf(match string) int {
 		}
 	}
 	return count
-}
-
-func New(input []string) *Grid {
-	values := make([][]string, len(input))
-	for y, line := range input {
-		values[y] = make([]string, len(line))
-		for x, char := range line {
-			values[y][x] = string(char)
-		}
-	}
-	return &Grid{values}
 }
 
 func Empty(x,y int) *Grid {
@@ -95,15 +95,10 @@ func (g *Grid) String() string {
 		s += "\n"
 	}
 	return s
-	// var s []string
-	// for _, line := range g.values {
-	// 	s = append(s, strings.Join(line, ""))
-	// }
-	// return strings.Join(s, "\n")
 }
 
 func (g *Grid) Dump() {
-	log.Printf("%v", g.String())
+	log.Printf("%v x %v grid:\n%v", g.Width(), g.Height(), g.String())
 }
 
 func (g *Grid) Fill(x,y int, fillWith, edge string) {
@@ -122,4 +117,48 @@ func (g *Grid) Fill(x,y int, fillWith, edge string) {
 	g.Fill(x-1,y,fillWith,edge)
 	g.Fill(x,y-1,fillWith,edge)
 	g.Fill(x,y+1,fillWith,edge)
+}
+
+func (g *Grid) FillN(x,y int, edge string, step, maxSteps int) {
+	if maxSteps <= 0 {
+		return
+	}
+	log.Printf("Filling from %v,%v (step %v, %v to go)", x, y, step, maxSteps)
+	if g.Outside(x,y) {
+		return
+	}
+	if g.Get(x,y) != "." && g.Get(x,y) != "S" {
+		return
+	}
+	if g.Get(x,y) == edge {
+		return
+	}
+	if step > 0 {
+		g.Set(x,y,fmt.Sprintf("%v", step))
+	}
+	g.FillN(x+1,y,edge,step+1,maxSteps-1)
+	g.FillN(x-1,y,edge,step+1,maxSteps-1)
+	g.FillN(x,y-1,edge,step+1,maxSteps-1)
+	g.FillN(x,y+1,edge,step+1,maxSteps-1)
+}
+
+func (g *Grid) Find(s string) (int, int) {
+	for y := 0; y < g.Height(); y++ {
+		for x := 0; x < g.Width(); x++ {
+			if g.Get(x,y) == s {
+				return x,y
+			}
+		}
+	}
+	return -1,-1
+}
+
+func (g *Grid) Replace(f, r string) {
+	for y := 0; y < g.Height(); y++ {
+		for x := 0; x < g.Width(); x++ {
+			if g.Get(x,y) == f {
+				g.Set(x,y,r)
+			}
+		}
+	}
 }
