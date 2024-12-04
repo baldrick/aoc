@@ -1,9 +1,9 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 
 go_library(
-    name = "2023_lib",
+    name = "{{YEAR}}_lib",
     srcs = ["aoc.go"],
-    importpath = "github.com/baldrick/aoc/2023",
+    importpath = "github.com/baldrick/aoc/{{YEAR}}",
     visibility = ["//visibility:private"],
     deps = [{{DEPS}}
         "@com_github_urfave_cli//:cli",
@@ -11,7 +11,7 @@ go_library(
 )
 
 go_binary(
-    name = "2023",
-    embed = [":2023_lib"],
+    name = "{{YEAR}}",
+    embed = [":{{YEAR}}_lib"],
     visibility = ["//visibility:public"],
 )

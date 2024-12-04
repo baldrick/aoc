@@ -1,8 +1,8 @@
 init() {
     if [ -z "$1" ]
     then
-        year=$(date | cut -d ' ' -f 4)
-        day=$(date | cut -d ' ' -f 2)
+        year=$(date | cut -d ' ' -f 7)
+        day=$(date | cut -d ' ' -f 3)
     else
         year=$1
         day=$2
@@ -73,7 +73,7 @@ getPuzzle() {
     else
         session=$(cat session)
         tmp=/tmp/curl.$$
-        curl --cookie ${session} -o ${puzzle} https://adventofcode.com/${year}/day/${day}/input 2>$tmp
+        curl --cookie "session=${session}" -o ${puzzle} https://adventofcode.com/${year}/day/${day}/input 2>$tmp
         if [[ $? -ne 0 ]]
         then
             echo "Failed to retrieve puzzle:"

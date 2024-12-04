@@ -1,0 +1,30 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "aoc",
+    srcs = ["aoc.go"],
+    importpath = "github.com/baldrick/aoc/common/aoc",
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "grid",
+    srcs = ["grid.go"],
+    importpath = "github.com/baldrick/aoc/common/grid",
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "ggrid",
+    srcs = ["generic_grid.go"],
+    importpath = "github.com/baldrick/aoc/common/ggrid",
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "rangemap",
+    srcs = ["rangemap.go"],
+    importpath = "github.com/baldrick/aoc/common/rangemap",
+    visibility = ["//visibility:public"],
+    deps = [":aoc"],
+)

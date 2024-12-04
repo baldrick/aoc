@@ -17,4 +17,5 @@ go_test(
     srcs = ["a_test.go"],
     embed = [":24"],
     visibility = ["//visibility:public"],
+    deps = ["//2023/aoc"],
 )
