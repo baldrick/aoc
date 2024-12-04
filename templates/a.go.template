@@ -5,7 +5,7 @@ import (
     "fmt"
     "log"
 
-    "github.com/baldrick/aoc/2023/aoc"
+    "github.com/baldrick/aoc/common/aoc"
     "github.com/urfave/cli"
 )
 

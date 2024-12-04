@@ -31,7 +31,7 @@ fileReplace() {
 }
 
 updateApp() {
-    clidays="$(seq 1 25)"
+    clidays="$(seq 2 25)"
     deps=""
     imports=""
     cmds=""
@@ -39,14 +39,17 @@ updateApp() {
     do
         if [[ $d -le $day ]]
         then
-            imports="$imports\\n    day$d \"github.com\/baldrick\/aoc\/2023\/$d\""
+            imports="$imports\\n    day$d \"github.com\/baldrick\/aoc\/${year}\/$d\""
             cmds="$cmds\\n            *day$d.A, *day$d.B,"
-            deps="$deps\\n        \"\/\/2023\/$d\:${d}\","
+            deps="$deps\\n        \"\/\/${year}\/$d\:${d}\","
         fi
     done
-    fileReplace "{{DEPS}}" "$deps" templates/template.aoc.BUILD.bazel ${year}/BUILD.bazel force
+    tmp=/tmp/prepare_$$
+    fileReplace "{{DEPS}}" "$deps" templates/template.aoc.BUILD.bazel $tmp force
+    fileReplace "{{YEAR}}" "$year" $tmp ${year}/BUILD.bazel force
     fileReplace "{{IMPORTS}}" "$imports" templates/aoc.go.template ${year}/aoc.go.2 force
     fileReplace "{{CMDS}}" "$cmds" ${year}/aoc.go.2 ${year}/aoc.go force
+    rm $tmp
     rm ${year}/aoc.go.2
 }
 

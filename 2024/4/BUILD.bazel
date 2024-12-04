@@ -1,20 +1,21 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
-    name = "3",
+    name = "4",
     srcs = ["a.go"],
-    embedsrcs = ["puzzle2.txt"],
-    importpath = "github.com/baldrick/aoc/2024/3",
+    embedsrcs = ["puzzle.txt"],
+    importpath = "github.com/baldrick/aoc/2024/4",
     visibility = ["//visibility:public"],
     deps = [
         "//common/aoc",
+        "//common/aoc:grid",
         "@com_github_urfave_cli//:cli",
     ],
 )
 
 go_test(
-    name = "3_test",
+    name = "4_test",
     srcs = ["a_test.go"],
-    embed = [":3"],
+    embed = [":4"],
     visibility = ["//visibility:public"],
 )
