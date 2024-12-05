@@ -41,7 +41,7 @@ updateApp() {
         then
             imports="$imports\\n    day$d \"github.com\/baldrick\/aoc\/${year}\/$d\""
             cmds="$cmds\\n            *day$d.A, *day$d.B,"
-            deps="$deps\\n        \"\/\/${year}\/$d\:${d}\","
+            deps="$deps\\n        \"\/\/${year}\/$d\","
         fi
     done
     tmp=/tmp/prepare_$$
