@@ -31,7 +31,7 @@ fileReplace() {
 }
 
 updateApp() {
-    clidays="$(seq 2 25)"
+    clidays="$(seq 1 25)"
     deps=""
     imports=""
     cmds=""
