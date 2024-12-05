@@ -59,19 +59,26 @@ func processA(puzzle []string) (int, error) {
 }
 
 func processB(puzzle []string) (int, error) {
-	log.Println("==== processB ====")
 	safe := 0
-	processed := 0
 	for _, line := range puzzle {
 		r := createRecord(strings.Split(line, " "))
-		safety := r.isSafe(true)
-		if safety {
+		if r.isSafe(false) {
 			safe++
+			continue
 		}
-		log.Printf("######### %v (%v)", r, safeStr(safety))
-		processed++
+		for n := 0; n < len(r.numbers); n++ {
+			r2 := createRecord(strings.Split(line, " "))
+			start := r2.numbers[:n]
+			end := r2.numbers[n+1:]
+			var n []int
+			n = append(append(n, start...), end...)
+			r2.numbers = n
+			if r2.isSafe(false) {
+				safe++
+				break
+			}
+		}
 	}
-	log.Printf("processed %v records", processed)
 	return safe, nil
 }
 
