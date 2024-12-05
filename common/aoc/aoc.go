@@ -11,6 +11,7 @@ import (
 
 var (
 	Reset         = "\033[0m"
+	Black         = "\033[30m"
 	Red           = "\033[31m"
 	Green         = "\033[32m"
 	Yellow        = "\033[33m"
@@ -75,6 +76,14 @@ type StringSet struct {
 
 func NewStringSet() *StringSet {
 	return &StringSet{s: make(map[string]struct{})}
+}
+
+func MakeStringSet(sa []string) *StringSet {
+	set := NewStringSet()
+	for _, s := range sa {
+		set.Add(s)
+	}
+	return set
 }
 
 func (ss *StringSet) Add(s string) {

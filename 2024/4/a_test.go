@@ -26,6 +26,69 @@ func Test_day4(t *testing.T) {
 			wantA: 18,
 			wantB: 9,
 		},
+		{
+			input: []string{
+				"M.MM.S",
+				".A..A.",
+				"S.SM.S",
+			},
+			wantA: 0,
+			wantB: 2,
+		},
+		{
+			input: []string{
+				"S.SS.M",
+				".A..A.",
+				"M.MS.M",
+			},
+			wantA: 0,
+			wantB: 2,
+		},
+		{
+			input: []string{
+				".SS.M",
+				"A..A.",
+				".MS.M",
+			},
+			wantA: 0,
+			wantB: 1,
+		},
+		{
+			input: []string{
+				"S.SS.",
+				".A..A",
+				"M.MS.",
+			},
+			wantA: 0,
+			wantB: 1,
+		},
+		{
+			input: []string{
+				"S.SS.M",
+				".A..A.",
+				"M.MM.S",
+			},
+			wantA: 0,
+			wantB: 1,
+		},
+		{
+			input: []string{
+				"S.SS.M",
+				".A..A.",
+				"M.MM.M",
+			},
+			wantA: 0,
+			wantB: 1,
+		},
+		{
+			input: []string{
+				"S.SS.S",
+				".A..A.",
+				"M.MM.S",
+			},
+			wantA: 0,
+			wantB: 1,
+		},
 	}
 	for n, tc := range tests {
 		t.Run(fmt.Sprintf("Test %v", n), func(t *testing.T) {

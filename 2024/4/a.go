@@ -96,7 +96,7 @@ func DumpInColour(cg, g *grid.Grid) {
 	for y := 0; y < g.Height(); y++ {
 		for x := 0; x < g.Width(); x++ {
 			if cg.Get(x, y) == "." {
-				s += aoc.BrightYellow
+				s += aoc.Black
 			} else {
 				s += cg.Get(x, y)
 			}
@@ -112,8 +112,8 @@ func processB(puzzle []string) (int, error) {
 	g := grid.New(puzzle)
 	cg := grid.Empty(g.Width(), g.Height())
 	total := 0
-	for x := 0; x < g.Width(); x++ {
-		for y := 0; y < g.Height(); y++ {
+	for x := 1; x < g.Width()-1; x++ {
+		for y := 1; y < g.Height()-1; y++ {
 			total += isX_MAS(cg, g, x, y)
 		}
 	}
@@ -124,9 +124,6 @@ func processB(puzzle []string) (int, error) {
 func isX_MAS(cg, g *grid.Grid, x, y int) int {
 	if g.Get(x, y) != "A" {
 		// log.Printf("[%v,%v]=%v != X", x, y, g.Get(x, y))
-		return 0
-	}
-	if g.Outside(x+1, y+1) || g.Outside(x+1, y-1) || g.Outside(x-1, y+1) || g.Outside(x-1, y-1) {
 		return 0
 	}
 	tl := g.Get(x-1, y-1)

@@ -6,9 +6,10 @@ go_library(
     importpath = "github.com/baldrick/aoc/2024",
     visibility = ["//visibility:private"],
     deps = [
-        "//2024/2",
-        "//2024/3",
-        "//2024/4",
+        "//2024/2:2",
+        "//2024/3:3",
+        "//2024/4:4",
+        "//2024/5:5",
         "@com_github_urfave_cli//:cli",
     ],
 )
