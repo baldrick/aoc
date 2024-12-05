@@ -3,7 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 go_library(
     name = "3",
     srcs = ["a.go"],
-    embedsrcs = ["puzzle2.txt"],
+    embedsrcs = ["puzzle.txt"],
     importpath = "github.com/baldrick/aoc/2024/3",
     visibility = ["//visibility:public"],
     deps = [

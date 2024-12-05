@@ -4,13 +4,14 @@ import (
 	_ "embed"
 	"log"
 	"regexp"
+	"strings"
 
 	"github.com/baldrick/aoc/common/aoc"
 	"github.com/urfave/cli"
 )
 
 var (
-	//go:embed puzzle2.txt
+	//go:embed puzzle.txt
 	puzzle string
 
 	// A is the command to use to run part A for this day.
@@ -68,29 +69,26 @@ func processA(puzzle []string) (int, error) {
 func processB(puzzle []string) (int, error) {
 	allMuls := ""
 	enabled := true
-	doNot := regexp.MustCompile(`don't\(\)`)
-	do := regexp.MustCompile(`do\(\)`)
 	line := puzzle[0]
 	for {
 		if enabled {
 			// already enabled, find where we start being disabled.
-			disabledIndex := doNot.FindStringIndex(line)
-			if disabledIndex == nil {
-				allMuls += line
+			before, after, found := strings.Cut(line, "don't()")
+			log.Printf("\n-----------------------------\nline: %v\n\nbefore (enabled): %v\n\nafter (disabled): %v\n\nallMuls: %v", line, before, after, allMuls)
+			allMuls += before
+			if !found {
 				break
 			}
-			log.Printf("%v disabled from %v", line, disabledIndex)
-			allMuls += line[:disabledIndex[0]]
-			line = line[disabledIndex[1]:]
 			enabled = false
+			line = after
 		} else {
 			// disabled, find where it's next enabled.
-			enabledIndex := do.FindStringIndex(line)
-			if enabledIndex == nil {
+			before, after, found := strings.Cut(line, "do()")
+			log.Printf("\n########################\nline: %v\n\nbefore (disabled): %v\n\nafter (enabled): %v", line, before, after)
+			if !found {
 				break
 			}
-			log.Printf("%v enabled from %v", line, enabledIndex)
-			line = line[enabledIndex[1]:]
+			line = after
 			enabled = true
 		}
 	}
@@ -100,76 +98,11 @@ func processB(puzzle []string) (int, error) {
 	calcs := re.FindAllStringSubmatch(allMuls, -1)
 	sum := 0
 	for _, calc := range calcs {
-		sum += aoc.MustAtoi(calc[1]) * aoc.MustAtoi(calc[2])
+		sum += (aoc.MustAtoi(calc[1]) * aoc.MustAtoi(calc[2]))
 	}
 	log.Print(calcs)
+	// incorrect answers:
+	// 85770822
+	// 7092082
 	return sum, nil
 }
-
-// func processB(puzzle []string) (int, error) {
-// 	// don't()
-// 	// do()
-// 	log.Print("=================== B ==================")
-// 	sum := 0
-// 	var allMuls []string
-// 	for _, line := range puzzle {
-// 		line = fmt.Sprintf(".%v.", line)
-// 		log.Print(line)
-// 		enabled := true
-// 		start := 0
-// 		n := 1
-// 		for n < 5 {
-// 			n++
-// 			if enabled {
-// 				log.Printf("finding disabled from %v: %v", start, line[start:])
-// 				re := regexp.MustCompile(`(.*)don't\(\)(.*)`)
-// 				matches := re.FindAllStringSubmatchIndex(line[start:], -1)
-// 				if len(matches) == 0 {
-// 					log.Printf("No more disabled, add %v", line[start:])
-// 					allMuls = append(allMuls, line[start:])
-// 					break
-// 				}
-// 				enabled = false
-// 				// [[0 73 0 20 27 73]]
-// 				// entire start,end
-// 				// start, end of enabled section
-// 				// end of don't()
-// 				// end of string
-// 				startEnabled := start + matches[0][2]
-// 				endEnabled := start + matches[0][3]
-// 				addMul := line[startEnabled:endEnabled]
-// 				log.Printf("%v, add mul (%v-%v) %v", matches, startEnabled, endEnabled, addMul)
-// 				allMuls = append(allMuls, addMul)
-// 				start += matches[0][4]
-// 				log.Printf("%v, disabled, start=%v: %v", matches, start, line[start:])
-// 			} else {
-// 				log.Printf("finding enabled from %v: %v", start, line[start:])
-// 				re := regexp.MustCompile(`.*do\(\)(.*)`)
-// 				matches := re.FindAllStringSubmatchIndex(line[start:], -1)
-// 				if len(matches) == 0 {
-// 					log.Printf("No matches after #%v: %v", start, line[start:])
-// 					break
-// 				}
-// 				enabled = true
-// 				// [[0 73 63 73]]
-// 				// entire start,end
-// 				// start, end of enabled section
-// 				start += matches[0][2]
-// 				log.Printf("%v, enabled, start=%v: %v", matches, start, line[start:])
-// 			}
-// 		}
-// 		// re := regexp.MustCompile(`mul\([0-9]+,[0-9]+\)`)
-// 		// muls := re.FindAllString(line, -1)
-// 	}
-
-// 	log.Printf("all muls: %v", allMuls)
-// 	for _, mul := range allMuls {
-// 		re := regexp.MustCompile(`mul\(([0-9]+),([0-9]+)\)`)
-// 		calcs := re.FindAllStringSubmatch(mul, -1)
-// 		for _, calc := range calcs {
-// 			sum += aoc.MustAtoi(calc[1]) * aoc.MustAtoi(calc[2])
-// 		}
-// 		log.Print(calcs)
-// 	}
-// 	return sum, nil
-// }

@@ -38,7 +38,12 @@ func Test_day3(t *testing.T) {
 			},
 			wantB: 26,
 		},
-
+		{
+			inputB: []string{
+				"mmul(3,3)",
+			},
+			wantB: 9,
+		},
 		{
 			inputA: []string{
 				"xmul(8,5)&mul[3,7]!^don't()don't()do()don't()_mul(500,15)don't()+mul(32,64](mul(11,8)undo()?mul(8,5))",
