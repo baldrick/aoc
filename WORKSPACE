@@ -1,4 +1,4 @@
-workspace(name = "aoc")
+workspace(name = "com_gavinmanning_aoc")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 

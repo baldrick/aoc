@@ -28,3 +28,10 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [":aoc"],
 )
+
+go_library(
+    name = "terminal",
+    srcs = ["terminal.go"],
+    importpath = "github.com/baldrick/aoc/common/terminal",
+    visibility = ["//visibility:public"],
+)

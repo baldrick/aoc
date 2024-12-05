@@ -6,6 +6,7 @@ import (
 
 	"github.com/baldrick/aoc/common/aoc"
 	"github.com/baldrick/aoc/common/grid"
+	"github.com/baldrick/aoc/common/terminal"
 	"github.com/urfave/cli"
 )
 
@@ -86,7 +87,7 @@ func readInGrid(cg, g *grid.Grid, s string, x, y, dx, dy int) int {
 		}
 	}
 	for n := 0; n <= len(s); n++ {
-		cg.Set(x+n*dx, y+n*dy, aoc.Red)
+		cg.Set(x+n*dx, y+n*dy, terminal.Red)
 	}
 	return 1
 }
@@ -96,7 +97,7 @@ func DumpInColour(cg, g *grid.Grid) {
 	for y := 0; y < g.Height(); y++ {
 		for x := 0; x < g.Width(); x++ {
 			if cg.Get(x, y) == "." {
-				s += aoc.Black
+				s += terminal.Black
 			} else {
 				s += cg.Get(x, y)
 			}
@@ -104,7 +105,7 @@ func DumpInColour(cg, g *grid.Grid) {
 		}
 		s += "\n"
 	}
-	s += aoc.Reset
+	s += terminal.Reset
 	log.Printf("\n%v", s)
 }
 
@@ -133,11 +134,11 @@ func isX_MAS(cg, g *grid.Grid, x, y int) int {
 	fwd := tl + br
 	bwd := bl + tr
 	if (fwd == "MS" || fwd == "SM") && (bwd == "MS" || bwd == "SM") {
-		cg.Set(x, y, aoc.BrightRed)
-		cg.Set(x-1, y-1, aoc.BrightRed)
-		cg.Set(x-1, y+1, aoc.BrightRed)
-		cg.Set(x+1, y-1, aoc.BrightRed)
-		cg.Set(x+1, y+1, aoc.BrightRed)
+		cg.Set(x, y, terminal.BrightRed)
+		cg.Set(x-1, y-1, terminal.BrightRed)
+		cg.Set(x-1, y+1, terminal.BrightRed)
+		cg.Set(x+1, y-1, terminal.BrightRed)
+		cg.Set(x+1, y+1, terminal.BrightRed)
 		return 1
 	}
 	return 0
