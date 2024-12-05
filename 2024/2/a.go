@@ -51,7 +51,7 @@ func processA(puzzle []string) (int, error) {
 	safe := 0
 	for _, line := range puzzle {
 		r := createRecord(strings.Split(line, " "))
-		if r.isSafe(false) {
+		if r.isSafe() {
 			safe++
 		}
 	}
@@ -62,7 +62,7 @@ func processB(puzzle []string) (int, error) {
 	safe := 0
 	for _, line := range puzzle {
 		r := createRecord(strings.Split(line, " "))
-		if r.isSafe(false) {
+		if r.isSafe() {
 			safe++
 			continue
 		}
@@ -73,7 +73,7 @@ func processB(puzzle []string) (int, error) {
 			var n []int
 			n = append(append(n, start...), end...)
 			r2.numbers = n
-			if r2.isSafe(false) {
+			if r2.isSafe() {
 				safe++
 				break
 			}
@@ -103,30 +103,14 @@ func (r record) String() string {
 	return fmt.Sprintf("%v", r.numbers)
 }
 
-func (r record) isSafe(ignoreOne bool) bool {
+func (r record) isSafe() bool {
 	log.Printf("%v - checking", r.numbers)
 	r.direction = r.numbers[0] > r.numbers[1]
 	for i := 1; i < len(r.numbers); i++ {
 		if r.safePair(i, i-1, i) {
 			continue
 		}
-		if !ignoreOne {
-			return false
-		}
-
-		if i == len(r.numbers)-1 {
-			return true // ignore the last number
-		}
-		// 1 2 7 8 9
-		// 2v7 unsafe => check 1,7,8,9 & 2,8,9
-		var a record
-		if i == 1 {
-			a = r.createSubrecord(r.numbers[1], 2)
-		} else {
-			a = r.createSubrecord(r.numbers[i-2], i)
-		}
-		b := r.createSubrecord(r.numbers[i-1], i+1)
-		return a.isSafe(false) || b.isSafe(false)
+		return false
 	}
 	log.Printf("%v - safe", r.numbers)
 	return true
