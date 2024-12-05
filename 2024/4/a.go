@@ -96,7 +96,7 @@ func DumpInColour(cg, g *grid.Grid) {
 	for y := 0; y < g.Height(); y++ {
 		for x := 0; x < g.Width(); x++ {
 			if cg.Get(x, y) == "." {
-				s += aoc.Yellow
+				s += aoc.BrightYellow
 			} else {
 				s += cg.Get(x, y)
 			}
@@ -136,11 +136,11 @@ func isX_MAS(cg, g *grid.Grid, x, y int) int {
 	fwd := tl + br
 	bwd := bl + tr
 	if (fwd == "MS" || fwd == "SM") && (bwd == "MS" || bwd == "SM") {
-		cg.Set(x, y, aoc.Red)
-		cg.Set(x-1, y-1, aoc.Red)
-		cg.Set(x-1, y+1, aoc.Red)
-		cg.Set(x+1, y-1, aoc.Red)
-		cg.Set(x+1, y+1, aoc.Red)
+		cg.Set(x, y, aoc.BrightRed)
+		cg.Set(x-1, y-1, aoc.BrightRed)
+		cg.Set(x-1, y+1, aoc.BrightRed)
+		cg.Set(x+1, y-1, aoc.BrightRed)
+		cg.Set(x+1, y+1, aoc.BrightRed)
 		return 1
 	}
 	return 0
