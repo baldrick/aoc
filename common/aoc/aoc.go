@@ -92,6 +92,11 @@ func (ss *StringSet) Intersect(other *StringSet) *StringSet {
 	return i
 }
 
+func (ss *StringSet) Contains(s string) bool {
+	_, ok := ss.s[s]
+	return ok
+}
+
 func (ss *StringSet) Len() int {
 	return len(ss.s)
 }
@@ -189,4 +194,8 @@ func LCM(integers ...int) int {
 	}
 
 	return result
+}
+
+type PairInt struct {
+	a, b int
 }
