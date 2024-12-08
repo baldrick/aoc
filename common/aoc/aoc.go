@@ -101,6 +101,14 @@ func (ss *StringSet) Len() int {
 	return len(ss.s)
 }
 
+func (ss *StringSet) AsArray() []string {
+	var a []string
+	for k := range ss.s {
+		a = append(a, k)
+	}
+	return a
+}
+
 type IntSet struct {
 	s map[int]struct{}
 }
@@ -198,4 +206,24 @@ func LCM(integers ...int) int {
 
 type PairInt struct {
 	a, b int
+}
+
+func NewPairInt(a, b int) PairInt {
+	return PairInt{a, b}
+}
+
+func (pi PairInt) String() string {
+	return fmt.Sprintf("%v,%v", pi.a, pi.b)
+}
+
+func (pi PairInt) Equals(p PairInt) bool {
+	return pi.a == p.a && pi.b == p.b
+}
+
+func (pi PairInt) X() int {
+	return pi.a
+}
+
+func (pi PairInt) Y() int {
+	return pi.b
 }

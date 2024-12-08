@@ -9,15 +9,20 @@ func Test_day{{DAY}}(t *testing.T) {
 	tests := []struct {
 		input []string
 		wantA, wantB int
+		ignore bool
 	}{
 		{
 			input: []string{
 			},
 			wantA: 0,
 			wantB: 0,
+			ignore: false,
 		},
 	}
 	for n, tc := range tests {
+		if tc.ignore {
+			continue
+		}
 		t.Run(fmt.Sprintf("Test %v", n), func(t *testing.T) {
 			testPart(t, "A", processA, tc.input, tc.wantA)
 			testPart(t, "B", processB, tc.input, tc.wantB)

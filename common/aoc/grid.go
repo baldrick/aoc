@@ -98,7 +98,11 @@ func (g *Grid) String() string {
 }
 
 func (g *Grid) Dump() {
-	log.Printf("%v x %v grid:\n%v", g.Width(), g.Height(), g.String())
+	g.DumpMsg("")
+}
+
+func (g *Grid) DumpMsg(s string) {
+	log.Printf("%v: %v x %v grid:\n%v", s, g.Width(), g.Height(), g.String())
 }
 
 func (g *Grid) Fill(x, y int, fillWith, edge string) {
