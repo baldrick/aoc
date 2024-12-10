@@ -1,8 +1,8 @@
 init() {
     if [ -z "$1" ]
     then
-        year=$(date | cut -d ' ' -f 7)
-        day=$(date | cut -d ' ' -f 3)
+        year=$(date +'%Y %d' | cut -d ' ' -f 1)
+        day=$(date +'%Y %d' | cut -d ' ' -f 2)
     else
         year=$1
         day=$2
