@@ -8,6 +8,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//common/aoc",
+        "//common/aoc:grid",
         "@com_github_urfave_cli//:cli",
     ],
 )

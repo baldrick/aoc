@@ -12,6 +12,7 @@ go_library(
     srcs = ["grid.go"],
     importpath = "github.com/baldrick/aoc/common/grid",
     visibility = ["//visibility:public"],
+    deps = [":aoc"],
 )
 
 go_library(

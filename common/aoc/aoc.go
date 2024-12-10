@@ -132,6 +132,10 @@ func (s *IntSet) MapOver(f func(int)) {
 	}
 }
 
+func (s *IntSet) Len() int {
+	return len(s.s)
+}
+
 func MustAtoi(s string) int {
 	n, err := strconv.Atoi(s)
 	if err != nil {

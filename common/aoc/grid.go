@@ -3,6 +3,8 @@ package grid
 import (
 	"fmt"
 	"log"
+
+	"github.com/baldrick/aoc/common/aoc"
 )
 
 type Grid struct {
@@ -90,7 +92,11 @@ func (g *Grid) String() string {
 	s := ""
 	for y := 0; y < g.Height(); y++ {
 		for x := 0; x < g.Width(); x++ {
-			s += g.Get(x, y)
+			if g.Get(x, y) == "-1" {
+				s += "."
+			} else {
+				s += g.Get(x, y)
+			}
 		}
 		s += "\n"
 	}
@@ -155,6 +161,18 @@ func (g *Grid) Find(s string) (int, int) {
 		}
 	}
 	return -1, -1
+}
+
+func (g *Grid) FindAll(s string) []aoc.PairInt {
+	var pi []aoc.PairInt
+	for y := 0; y < g.Height(); y++ {
+		for x := 0; x < g.Width(); x++ {
+			if g.Get(x, y) == s {
+				pi = append(pi, aoc.NewPairInt(x, y))
+			}
+		}
+	}
+	return pi
 }
 
 func (g *Grid) Replace(f, r string) {
