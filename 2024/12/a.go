@@ -61,7 +61,7 @@ func processA(puzzle []string) (int, error) {
 				continue
 			}
 			plant := garden.g.Get(x, y)
-			garden.Flood(x, y, plant)
+			garden.Flood(x, y, 0, 0, plant)
 			sum += garden.area * garden.perimeter
 			log.Printf("%v area %v x perimeter %v = %v", plant, garden.area, garden.perimeter, garden.area*garden.perimeter)
 			garden.g.Dump()
@@ -89,8 +89,9 @@ func (gn *Garden) Reset(g *grid.Grid) {
 	}
 }
 
-func (gn *Garden) Flood(x, y int, plant string) {
-	loc := gn.loc(x, y)
+func (gn *Garden) Flood(x, y, dx, dy int, plant string) {
+	nx, ny := x+dx, y+dy
+	loc := gn.loc(x, y, nx, ny)
 	// if gn.g.Outside(x, y) {
 	// 	log.Printf("%v is outside, visited=%v", loc, gn.visited)
 	// } else {
@@ -103,29 +104,29 @@ func (gn *Garden) Flood(x, y int, plant string) {
 	}
 	//log.Printf("not visited %v, visited: %v", loc, gn.visited)
 	gn.visited.Add(loc)
-	if gn.g.Outside(x, y) || gn.g.Get(x, y) != plant {
+	if gn.g.Outside(nx, ny) || gn.g.Get(nx, ny) != plant {
 		// if gn.g.Outside(x, y) {
 		// 	log.Printf("++ perimeter at %v (outside)", loc)
 		// } else {
-		log.Printf("++ perimeter at %v (%v)", loc, gn.g.Get(x, y))
-		n, err := strconv.Atoi(gn.g.Get(x, y))
+		log.Printf("++ perimeter at %v (%v)", loc, gn.g.Get(nx, ny))
+		n, err := strconv.Atoi(gn.g.Get(nx, ny))
 		if err != nil {
 			n = 0
 		}
-		gn.g.Set(x, y, fmt.Sprintf("%v", n+1))
+		gn.g.Set(nx, ny, fmt.Sprintf("%v", n+1))
 		//}
 		gn.perimeter++
 		return
 	}
 	gn.plantVisited.Add(loc)
 	gn.area++
-	gn.g.Set(x, y, ".")
-	gn.Flood(x+1, y, plant)
-	gn.Flood(x-1, y, plant)
-	gn.Flood(x, y-1, plant)
-	gn.Flood(x, y+1, plant)
+	gn.g.Set(nx, ny, ".")
+	gn.Flood(nx, ny, 1, 0, plant)
+	gn.Flood(nx, ny, -1, 0, plant)
+	gn.Flood(nx, ny-1, 0, -1, plant)
+	gn.Flood(nx, ny+1, 0, 1, plant)
 }
 
-func (gn *Garden) loc(x, y int) string {
-	return fmt.Sprintf("%v.%v", x, y)
+func (gn *Garden) loc(x, y, nx, ny int) string {
+	return fmt.Sprintf("%v.%v-%v.%v", x, y, nx, ny)
 }
