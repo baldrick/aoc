@@ -74,7 +74,7 @@ func (g *Grid) Height() int {
 }
 
 func (g *Grid) Outside(x, y int) bool {
-	return x < 0 || y < 0 || x >= g.Width() || y >= g.Height()
+	return x < 1 || y < 1 || x >= g.Width()-1 || y >= g.Height()-1
 }
 
 func (g *Grid) Get(x, y int) string {
@@ -183,4 +183,22 @@ func (g *Grid) Replace(f, r string) {
 			}
 		}
 	}
+}
+
+func (g *Grid) AddBorder(b string) *Grid {
+	ng := Empty(g.Width()+2, g.Height()+2)
+	for x := 0; x < g.Width(); x++ {
+		for y := 0; y < g.Width(); y++ {
+			ng.Set(x+1, y+1, g.Get(x, y))
+		}
+	}
+	for x := 0; x < ng.Width(); x++ {
+		ng.Set(x, 0, b)
+		ng.Set(x, ng.Height()-1, b)
+	}
+	for y := 0; y < ng.Height(); y++ {
+		ng.Set(0, y, b)
+		ng.Set(0, ng.Width()-1, b)
+	}
+	return ng
 }
