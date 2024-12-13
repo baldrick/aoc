@@ -15,9 +15,9 @@ func PreparePuzzle(puzzle string) []string {
 	var lines []string
 	for _, line := range split {
 		stripped := re.ReplaceAllString(line, "")
-		if len(stripped) == 0 {
-			continue
-		}
+		// if len(stripped) == 0 {
+		// 	continue
+		// }
 		lines = append(lines, stripped)
 	}
 	log.Printf("Puzzle contains %v lines:\n%v", len(lines), strings.Join(lines, "\n"))
@@ -134,6 +134,14 @@ func (s *IntSet) MapOver(f func(int)) {
 
 func (s *IntSet) Len() int {
 	return len(s.s)
+}
+
+func (s *IntSet) AsArray() []int {
+	var a []int
+	for n := range s.s {
+		a = append(a, n)
+	}
+	return a
 }
 
 func MustAtoi(s string) int {

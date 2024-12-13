@@ -57,9 +57,6 @@ func processA(puzzle []string) (int, error) {
 	for x := 1; x < garden.g.Width()-1; x++ {
 		for y := 1; y < garden.g.Height()-1; y++ {
 			garden.Reset(g)
-			if garden.plantVisited.Contains(garden.loc(x, y)) {
-				continue
-			}
 			plant := garden.g.Get(x, y)
 			garden.Flood(x, y, 0, 0, plant)
 			sum += garden.area * garden.perimeter
@@ -102,7 +99,7 @@ func (gn *Garden) Flood(x, y, dx, dy int, plant string) {
 		//log.Printf("already visited %v", loc)
 		return
 	}
-	//log.Printf("not visited %v, visited: %v", loc, gn.visited)
+	log.Printf("not visited %v, visited: %v", loc, gn.visited)
 	gn.visited.Add(loc)
 	if gn.g.Outside(nx, ny) || gn.g.Get(nx, ny) != plant {
 		// if gn.g.Outside(x, y) {
