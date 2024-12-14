@@ -9,6 +9,7 @@ go_library(
     deps = [
         "//common/aoc",
         "//common/aoc:grid",
+        "//common/aoc:terminal",
         "@com_github_urfave_cli//:cli",
     ],
 )

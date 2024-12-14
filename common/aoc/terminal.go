@@ -1,6 +1,7 @@
 package terminal
 
 var (
+	// Colours.
 	Reset         = "\033[0m"
 	Black         = "\033[30m"
 	Red           = "\033[31m"
@@ -19,4 +20,7 @@ var (
 	BrightCyan    = "\033[36;1m"
 	BrightGray    = "\033[37;1m"
 	BrightWhite   = "\033[97;1m"
+
+	// Cursor control.
+	Home = "\033[H"
 )

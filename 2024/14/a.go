@@ -9,6 +9,7 @@ import (
 
 	"github.com/baldrick/aoc/common/aoc"
 	"github.com/baldrick/aoc/common/grid"
+	"github.com/baldrick/aoc/common/terminal"
 	"github.com/urfave/cli"
 )
 
@@ -175,6 +176,6 @@ func simpleDumpRobots(robots []robot, size aoc.PairInt) {
 		ry := r.position.Y()
 		g.Set(rx, ry, "#")
 	}
-	log.Printf("\033[H")
+	log.Print(terminal.Home)
 	g.Dump()
 }
