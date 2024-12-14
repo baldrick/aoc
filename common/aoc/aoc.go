@@ -15,10 +15,11 @@ func PreparePuzzle(puzzle string) []string {
 	var lines []string
 	for _, line := range split {
 		stripped := re.ReplaceAllString(line, "")
-		// if len(stripped) == 0 {
-		// 	continue
-		// }
 		lines = append(lines, stripped)
+	}
+	// Strip final line if empty
+	if len(lines[len(lines)-1]) == 0 {
+		lines = lines[:len(lines)-1]
 	}
 	log.Printf("Puzzle contains %v lines:\n%v", len(lines), strings.Join(lines, "\n"))
 	return lines
