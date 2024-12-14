@@ -2,18 +2,20 @@ package day{{DAY}}
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 )
 
 func Test_day{{DAY}}(t *testing.T) {
 	tests := []struct {
-		input []string
+		input string
 		wantA, wantB int
 		ignore bool
 	}{
 		{
-			input: []string{
-			},
+			input:
+`
+`,
 			wantA: 0,
 			wantB: 0,
 			ignore: false,
@@ -24,8 +26,9 @@ func Test_day{{DAY}}(t *testing.T) {
 			continue
 		}
 		t.Run(fmt.Sprintf("Test %v", n), func(t *testing.T) {
-			testPart(t, "A", processA, tc.input, tc.wantA)
-			testPart(t, "B", processB, tc.input, tc.wantB)
+			puzzle := strings.Split(tc.input, "\n")
+			testPart(t, "A", processA, puzzle, tc.wantA)
+			testPart(t, "B", processB, puzzle, tc.wantB)
 		})
 	}
 }
