@@ -3,12 +3,14 @@ package grid
 import (
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/baldrick/aoc/common/aoc"
 )
 
 type Grid struct {
 	values [][]string
+	border int
 }
 
 func New(input []string) *Grid {
@@ -19,7 +21,7 @@ func New(input []string) *Grid {
 			values[y][x] = string(char)
 		}
 	}
-	return &Grid{values}
+	return &Grid{values: values, border: 0}
 }
 
 type GridKey string // so grids can be stored in maps.
@@ -51,7 +53,7 @@ func Empty(x, y int) *Grid {
 	for n := 0; n < y; n++ {
 		values[n] = make([]string, x)
 	}
-	return &Grid{values}
+	return &Grid{values: values, border: 0}
 }
 
 func (g *Grid) Clone() *Grid {
@@ -62,7 +64,7 @@ func (g *Grid) Clone() *Grid {
 			values[y][x] = g.Get(x, y)
 		}
 	}
-	return &Grid{values}
+	return &Grid{values: values, border: g.border}
 }
 
 func (g *Grid) Width() int {
@@ -74,7 +76,7 @@ func (g *Grid) Height() int {
 }
 
 func (g *Grid) Outside(x, y int) bool {
-	return x < 1 || y < 1 || x >= g.Width()-1 || y >= g.Height()-1
+	return x < g.border || y < g.border || x >= g.Width()-g.border || y >= g.Height()-g.border
 }
 
 func (g *Grid) Get(x, y int) string {
@@ -108,7 +110,26 @@ func (g *Grid) Dump() {
 }
 
 func (g *Grid) DumpMsg(s string) {
-	log.Printf("%v: %v x %v grid:\n%v", s, g.Width(), g.Height(), g.String())
+	g.DumpMsgLen(s, 1)
+}
+
+func (g *Grid) DumpMsgLen(msg string, l int) {
+	s := ""
+	for y := 0; y < g.Height(); y++ {
+		for x := 0; x < g.Width(); x++ {
+			if g.Get(x, y) == "-1" {
+				s += "."
+			} else {
+				s += g.Get(x, y)
+			}
+			repeat := l - len(g.Get(x, y))
+			if repeat > 0 {
+				s += strings.Repeat(" ", repeat)
+			}
+		}
+		s += "\n"
+	}
+	log.Printf("%v: %v x %v grid:\n%v", msg, g.Width(), g.Height(), s)
 }
 
 func (g *Grid) Fill(x, y int, fillWith, edge string) {
@@ -186,6 +207,7 @@ func (g *Grid) Replace(f, r string) {
 }
 
 func (g *Grid) AddBorder(b string) *Grid {
+	g.border = 1
 	ng := Empty(g.Width()+2, g.Height()+2)
 	for x := 0; x < g.Width(); x++ {
 		for y := 0; y < g.Width(); y++ {
@@ -198,7 +220,16 @@ func (g *Grid) AddBorder(b string) *Grid {
 	}
 	for y := 0; y < ng.Height(); y++ {
 		ng.Set(0, y, b)
-		ng.Set(0, ng.Width()-1, b)
+		ng.Set(ng.Width()-1, y, b)
 	}
 	return ng
+}
+
+func (g *Grid) Increment(x, y int) {
+	current := g.Get(x, y)
+	n := 1
+	if len(current) != 0 && current != "." {
+		n = aoc.MustAtoi(current) + 1
+	}
+	g.Set(x, y, fmt.Sprintf("%v", n))
 }

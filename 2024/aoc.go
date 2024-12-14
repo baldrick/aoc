@@ -17,6 +17,7 @@ import (
     day11 "github.com/baldrick/aoc/2024/11"
     day12 "github.com/baldrick/aoc/2024/12"
     day13 "github.com/baldrick/aoc/2024/13"
+    day14 "github.com/baldrick/aoc/2024/14"
     "github.com/urfave/cli"
 )
 
@@ -36,6 +37,7 @@ func main() {
             *day11.A, *day11.B,
             *day12.A, *day12.B,
             *day13.A, *day13.B,
+            *day14.A, *day14.B,
         },
     }
     if err := app.Run(os.Args); err != nil {
