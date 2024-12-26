@@ -18,6 +18,17 @@ import (
     day12 "github.com/baldrick/aoc/2024/12"
     day13 "github.com/baldrick/aoc/2024/13"
     day14 "github.com/baldrick/aoc/2024/14"
+    day15 "github.com/baldrick/aoc/2024/15"
+    day16 "github.com/baldrick/aoc/2024/16"
+    day17 "github.com/baldrick/aoc/2024/17"
+    day18 "github.com/baldrick/aoc/2024/18"
+    day19 "github.com/baldrick/aoc/2024/19"
+    day20 "github.com/baldrick/aoc/2024/20"
+    day21 "github.com/baldrick/aoc/2024/21"
+    day22 "github.com/baldrick/aoc/2024/22"
+    day23 "github.com/baldrick/aoc/2024/23"
+    day24 "github.com/baldrick/aoc/2024/24"
+    day25 "github.com/baldrick/aoc/2024/25"
     "github.com/urfave/cli"
 )
 
@@ -38,6 +49,17 @@ func main() {
             *day12.A, *day12.B,
             *day13.A, *day13.B,
             *day14.A, *day14.B,
+            *day15.A, *day15.B,
+            *day16.A, *day16.B,
+            *day17.A, *day17.B,
+            *day18.A, *day18.B,
+            *day19.A, *day19.B,
+            *day20.A, *day20.B,
+            *day21.A, *day21.B,
+            *day22.A, *day22.B,
+            *day23.A, *day23.B,
+            *day24.A, *day24.B,
+            *day25.A, *day25.B,
         },
     }
     if err := app.Run(os.Args); err != nil {

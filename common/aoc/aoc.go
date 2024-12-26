@@ -73,6 +73,12 @@ func (ss *StringSet) Add(s string) {
 	ss.s[s] = struct{}{}
 }
 
+func (ss *StringSet) AddAll(ss2 *StringSet) {
+	for s := range ss2.s {
+		ss.Add(s)
+	}
+}
+
 func (ss *StringSet) String() string {
 	var sb strings.Builder
 	for n, _ := range ss.s {
@@ -96,6 +102,19 @@ func (ss *StringSet) Intersect(other *StringSet) *StringSet {
 func (ss *StringSet) Contains(s string) bool {
 	_, ok := ss.s[s]
 	return ok
+}
+
+func (ss *StringSet) ContainsAny(ss2 *StringSet) bool {
+	for s := range ss2.s {
+		if ss.Contains(s) {
+			return true
+		}
+	}
+	return false
+}
+
+func (ss *StringSet) Clear() {
+	ss.s = make(map[string]struct{})
 }
 
 func (ss *StringSet) Len() int {

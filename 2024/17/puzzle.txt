@@ -1,0 +1,33 @@
+Register A: 64196994
+Register B: 0
+Register C: 0
+
+Program: 2,4,1,1,7,5,1,5,4,0,0,3,5,5,3,0
+
+2 b = a mod 8
+4
+1 b = b xor 1
+1
+7 c = int(a / 2^b)
+5
+1 b = b xor 5
+5
+4 b = b xor c
+0
+0 a = int(a / 2^3)
+3
+5 output b mod 8
+5
+3 jump to 0 iff a!=0
+0
+
+loop 1
+b = 64196994 mod 8 = 2
+b = b xor 1 = 0x10 xor 0x01 = 0x11 = 3
+c = 64196994 / 9 = 7132999
+b = b xor 5 = 0x0011 xor 0x1001 = 0x1010 = 6
+b = b xor c = 0x1010 xor 7132999 = 7132993
+a = 64196994 / 9 = 7132999
+output b mod 8 = 7132993 mod 8 = 1
+jump to 0
+

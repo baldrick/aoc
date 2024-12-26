@@ -51,14 +51,17 @@ func partB(ctx *cli.Context) error {
 func processA(puzzle []string) (int, error) {
 	g := grid.New(puzzle)
 	g = g.AddBorder("-")
+	g.DumpMsg("start")
 	garden := Garden{g: g}
-	garden.g.Dump()
 	sum := 0
 	for x := 1; x < garden.g.Width()-1; x++ {
 		for y := 1; y < garden.g.Height()-1; y++ {
 			garden.Reset(g)
 			plant := garden.g.Get(x, y)
-			garden.Flood(x, y, 0, 0, plant)
+			garden.Flood2(x, y, 1, 0, plant)
+			garden.Flood2(x, y, -1, 0, plant)
+			garden.Flood2(x, y-1, 0, -1, plant)
+			garden.Flood2(x, y+1, 0, 1, plant)
 			sum += garden.area * garden.perimeter
 			log.Printf("%v area %v x perimeter %v = %v", plant, garden.area, garden.perimeter, garden.area*garden.perimeter)
 			garden.g.Dump()
@@ -86,6 +89,26 @@ func (gn *Garden) Reset(g *grid.Grid) {
 	}
 }
 
+func (gn *Garden) Flood2(x, y, dx, dy int, plant string) {
+	nx, ny := x+dx, y+dy
+	loc := gn.loc(x, y, nx, ny)
+	if gn.visited.Contains(loc) {
+		return
+	}
+	gn.visited.Add(loc)
+	if gn.g.Outside(nx, ny) || gn.g.Get(nx, ny) != plant {
+		gn.perimeter++
+		gn.g.Set(nx, ny, "#")
+		return
+	}
+	gn.area++
+	//gn.g.Set(nx, ny, ".")
+	gn.Flood(nx, ny, 1, 0, plant)
+	gn.Flood(nx, ny, -1, 0, plant)
+	gn.Flood(nx, ny-1, 0, -1, plant)
+	gn.Flood(nx, ny+1, 0, 1, plant)
+}
+
 func (gn *Garden) Flood(x, y, dx, dy int, plant string) {
 	nx, ny := x+dx, y+dy
 	loc := gn.loc(x, y, nx, ny)
@@ -100,8 +123,9 @@ func (gn *Garden) Flood(x, y, dx, dy int, plant string) {
 		return
 	}
 	log.Printf("not visited %v, visited: %v", loc, gn.visited)
+	gn.g.Dump()
 	gn.visited.Add(loc)
-	if gn.g.Outside(nx, ny) || gn.g.Get(nx, ny) != plant {
+	if gn.g.Get(nx, ny) != plant {
 		// if gn.g.Outside(x, y) {
 		// 	log.Printf("++ perimeter at %v (outside)", loc)
 		// } else {
